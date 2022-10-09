@@ -35,11 +35,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         })
         .catch(async (error) => {
           // console.log(error);
-          return res.json(error);
+          return res.json({
+            error: error,
+            source: "mailer.ts: Await mail.send() Catch",
+          });
         });
     } catch (e: any) {
       // console.log(e);
-      return res.status(e.statusCode || 500).json({ error: e.message });
+      return res
+        .status(e.statusCode || 500)
+        .json({ error: e.message, source: "mailer.ts: Try-(Catch)" });
     }
     // const transporter = nodemailer.createTransport({
     //   host: "smtp.ionos.com",

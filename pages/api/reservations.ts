@@ -543,16 +543,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         // const response = await axios(sendEmail);
         // }
 
-        let rootURL;
-        if (process.env.VERCEL) {
-          rootURL = process.env.VERCEL_URL;
-        } else {
-          rootURL = process.env.NEXTAUTH_URL;
-        }
+        // let rootURL;
+        // if (process.env.VERCEL) {
+        //   rootURL = process.env.VERCEL_URL;
+        // } else {
+        //   rootURL = process.env.NEXTAUTH_URL;
+        // }
 
         await axios({
-          method: "post",
-          url: `${rootURL}/api/mailer`,
+          method: "POST",
+          url: `${process.env.NEXTAUTH_URL}/api/mailer`,
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -578,7 +578,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           })
           .catch(function (error: any) {
             // console.log("axios error: ", error);
-            return res.json({ status: "failure", error: error });
+            return res.json({
+              status: "failure",
+              error: error,
+            });
           });
         // console.log("response: ", response.data);
       } catch (e) {
