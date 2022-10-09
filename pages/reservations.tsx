@@ -303,6 +303,8 @@ const Reservations = () => {
         return data;
       });
 
+    console.log("Response: ", reservationResponse);
+
     // checks if reservation was success or failure
     if (reservationResponse) {
       if (reservationResponse.status === "success") {
