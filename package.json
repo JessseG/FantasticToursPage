@@ -17,6 +17,7 @@
     "@types/nprogress": "^0.2.0",
     "@types/react-datepicker": "^4.4.2",
     "antd": "^4.23.4",
+    "googleapis": "^108.0.0",
     "moment": "^2.29.4",
     "next": "latest",
     "nprogress": "^0.2.0",

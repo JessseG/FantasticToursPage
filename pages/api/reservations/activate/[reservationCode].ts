@@ -29,7 +29,17 @@ const confirmReservation = async (
       ]);
       if (verifiedReservation) {
         // res.status(200).json({ message: "User Validated!" });
-        res.redirect("/thank_you");
+        await fetch(`${process.env.NEXTAUTH_URL}/api/calendar/addEvent`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ reservation: pendReservation }),
+        }).then(() => res.redirect("/thank_you"));
+        // .then((response) => response.json())
+        // .then((data) => {
+        //   return data;
+        // });
       } else {
         // console.log("e-1");
         res.redirect("/_error");
@@ -41,7 +51,7 @@ const confirmReservation = async (
     }
   } catch (e) {
     // return res.status(401).json({ message: "Cannot Validate User" });
-    console.log(e);
+    // console.log(e);
     // console.log("e-3");
     res.redirect("/_error");
   }

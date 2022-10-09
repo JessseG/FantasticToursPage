@@ -754,6 +754,8 @@ const Reservations = () => {
     validateDate();
   }, [reservationDate]);
 
+  // console.log(reservationDate);
+
   return (
     // <div className="mx-auto px-5 flex flex-col flex-1 w-full bg-no-repeat bg-cover bg-[url('/images/nighttime-miami.webp')]">
     // <div className="mx-auto px-5 flex flex-col flex-1 w-full bg-no-repeat bg-cover bg-[url('/images/sunset-palms.jpg')]">

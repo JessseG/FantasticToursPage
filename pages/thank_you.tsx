@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const ThankYou = () => {
+  const router = useRouter();
   useEffect(() => {
-    const router = useRouter();
-
+    // ADD ( 3...2....1... countdowwn to Home Page)
     setTimeout(() => {
       router.push("/reservations");
     }, 10000);
