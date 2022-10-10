@@ -132,24 +132,17 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
               },
             },
             // location: "800 Howard St., San Francisco, CA 94103",
-            description: `Hotel: ${reservation.hotel}\n
-                          Tour: ${reservation.tour}\n
-                          Adults: ${reservation.numAdults}\n
-                          Kids: ${reservation.numKids}\n
-                          Email: ${reservation.email}\n
-                          Phone: ${reservation.phone}\n\n
-                          Total: $${reservation.totalPrice}\n
-                          Deposit: ${
-                            reservation.depositPaid
-                              ? `${reservation.depositAmount}`
-                              : `none`
-                          }\n
-                          Balance: $${reservation.balance}\n\n
-                          Details: ${
-                            reservation.details
-                              ? `${reservation.details}`
-                              : "none"
-                          }`,
+            description: `Hotel: ${reservation.hotel}\nTour: ${
+              reservation.tour
+            }\nAdults: ${reservation.numAdults}\nKids: ${
+              reservation.numKids
+            }\nEmail: ${reservation.email}\nPhone: ${
+              reservation.phone
+            }\n\nTotal: $${reservation.totalPrice}\nDeposit: ${
+              reservation.depositPaid ? `${reservation.depositAmount}` : `none`
+            }\nBalance: $${reservation.balance}\n\nDetails: ${
+              reservation.details ? `${reservation.details}` : "none"
+            }`,
             start: {
               dateTime: joinDateTimes(
                 reservation.rsvpDate,
