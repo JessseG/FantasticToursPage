@@ -188,7 +188,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     } catch (error: any) {
       console.log(`Error at insertEvent --> ${error}`);
-      return res.status(502).json({ error: "fail 2" });
+      return res.status(502).json({ error: error });
     }
   };
 
@@ -196,8 +196,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     .then((res) => {
       console.log("res: ", res);
     })
-    .catch((err) => {
-      console.log("err: ", err);
+    .catch((error) => {
+      console.log("error: ", error);
     });
 
   // // Event for Google Calendar
