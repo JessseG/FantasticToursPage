@@ -113,7 +113,9 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
           auth: auth,
           calendarId: calendarId,
           requestBody: {
-            summary: "Google Calendar API Working",
+            summary: `${reservation.numAdults + reservation.numKids} ${
+              reservation.tour
+            } from ${reservation.hotel}`,
             //   conferenceData: {
             //     createRequest: {
             //         requestId: :
@@ -129,8 +131,25 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
                 Tour: "Key West",
               },
             },
-            location: "800 Howard St., San Francisco, CA 94103",
-            description: "Fantastic Tours Event",
+            // location: "800 Howard St., San Francisco, CA 94103",
+            description: `Hotel: ${reservation.hotel}\n
+                          Tour: ${reservation.tour}\n
+                          Adults: ${reservation.numAdults}\n
+                          Kids: ${reservation.numKids}\n
+                          Email: ${reservation.email}\n
+                          Phone: ${reservation.phone}\n\n
+                          Total: $${reservation.totalPrice}\n
+                          Deposit: ${
+                            reservation.depositPaid
+                              ? `${reservation.depositAmount}`
+                              : `none`
+                          }\n
+                          Balance: $${reservation.balance}\n\n
+                          Details: ${
+                            reservation.details
+                              ? `${reservation.details}`
+                              : "none"
+                          }`,
             start: {
               dateTime: joinDateTimes(
                 reservation.rsvpDate,
@@ -149,13 +168,13 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
             //     { email: "lpage@example.com" },
             //     { email: "sbrin@example.com" },
             //   ],
-            reminders: {
-              useDefault: false,
-              overrides: [
-                { method: "email", minutes: 24 * 60 },
-                { method: "popup", minutes: 10 },
-              ],
-            },
+            // reminders: {
+            //   useDefault: false,
+            //   overrides: [
+            //     { method: "email", minutes: 24 * 60 },
+            //     { method: "popup", minutes: 10 },
+            //   ],
+            // },
           },
         }
         //   function (err, event) {
