@@ -184,11 +184,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(200).json(gapiResponse);
       } else {
         console.log("CALENDAR EVENT failed");
-        return res.status(500).json({ error: gapiResponse });
+        return res.status(501).json({ error: "fail 1" });
       }
     } catch (error: any) {
       console.log(`Error at insertEvent --> ${error}`);
-      return res.status(500).json({ error: error });
+      return res.status(502).json({ error: "fail 2" });
     }
   };
 
