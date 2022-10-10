@@ -37,14 +37,14 @@ const confirmReservation = async (
           body: JSON.stringify({ reservation: pendReservation }),
         })
           .then((response: any) => {
-            console.log("Response: ", response);
+            // console.log("Response: ", response);
             if (response) {
-              console.log("Response.data: ", response.data);
+              // console.log("Response.data: ", response.data);
             }
             return res.redirect("/thank_you");
           })
           .catch(async (error) => {
-            console.log("Error: ", error);
+            // console.log("Error: ", error);
             return res.redirect("/_error");
           });
         // .then((response) => response.json())

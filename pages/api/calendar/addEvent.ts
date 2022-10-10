@@ -1,15 +1,10 @@
 import { google, Auth } from "googleapis";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
   const reservation = req.body.reservation;
 
-  // console.log("rservation: ", reservation);
-
-  // Provide the required configuration
-  if (process.env.GOOGLE_CALENDAR_CREDENTIALS) {
-    const CREDENTIALS = JSON.parse(process.env.GOOGLE_CALENDAR_CREDENTIALS);
-  }
+  // console.log("reservation: ", reservation);
   const calendarId = process.env.GOOGLE_CALENDAR_ID;
 
   // Google calendar API settings
@@ -18,14 +13,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     "https://www.googleapis.com/auth/calendar.events",
   ];
 
-  if (process.env.GOOGLE_CALENDAR_API_KEY) {
-    var auth = new google.auth.JWT({
-      email: process.env.GOOGLE_CALENDAR_EMAIL,
-      keyId: process.env.GOOGLE_CALENDAR_PRIVATE_KEY_ID,
-      key: process.env.GOOGLE_CALENDAR_PRIVATE_KEY,
-      scopes: SCOPES,
-    });
-  }
+  var auth = new google.auth.JWT({
+    email: process.env.GOOGLE_CALENDAR_EMAIL,
+    keyId: process.env.GOOGLE_CALENDAR_PRIVATE_KEY_ID,
+    key: process.env.GOOGLE_CALENDAR_PRIVATE_KEY,
+    scopes: SCOPES,
+  });
 
   const calendar = google.calendar({ version: "v3" });
 
@@ -180,28 +173,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         gapiResponse["status"] == 200 &&
         gapiResponse["statusText"] === "OK"
       ) {
-        console.log("gAPI Response: ", gapiResponse);
+        // console.log("gAPI Response: ", gapiResponse);
         return res.status(200).json(gapiResponse);
       } else {
-        console.log("CALENDAR EVENT failed");
-        return res.status(501).json({ error: "fail 1" });
+        // console.log("CALENDAR EVENT SET");
+        return res.status(500).json({ error: gapiResponse });
       }
     } catch (error: any) {
-      console.log(`Error at insertEvent --> ${error}`);
-      if (error) {
-        return res.status(502).json({ error: error.toString() });
-      } else {
-        return res.status(503).json({ error: "fail 3" });
-      }
+      // console.log(`Error at insertEvent --> ${error}`);
+      return res.status(500).json({ error: error });
     }
   };
 
   insertEvent()
     .then((res) => {
-      console.log("res: ", res);
+      // console.log(res);
     })
-    .catch((error) => {
-      console.log("error: ", error);
+    .catch((err) => {
+      // console.log(err);
     });
 
   // // Event for Google Calendar
@@ -278,4 +267,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   //     console.log(err);
   //   });
 };
-export default handler;
+export default addCalendarEvent;
