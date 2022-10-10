@@ -188,7 +188,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     } catch (error: any) {
       console.log(`Error at insertEvent --> ${error}`);
-      return res.status(502).json({ error: error });
+      if (error) {
+        return res.status(502).json({ error: error.toString() });
+      } else {
+        return res.status(503).json({ error: "fail 3" });
+      }
     }
   };
 
