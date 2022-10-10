@@ -131,6 +131,10 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
                 Hotel: "StayBridge",
                 Tour: "Key West",
               },
+              shared: {
+                Hotel: "StayBridge",
+                Tour: "Key West",
+              },
             },
             location: "800 Howard St., San Francisco, CA 94103",
             description: "Fantastic Tours Event",

@@ -303,7 +303,7 @@ const Reservations = () => {
         return data;
       });
 
-    console.log("Response: ", reservationResponse);
+    // console.log("Response: ", reservationResponse);
 
     // checks if reservation was success or failure
     if (reservationResponse) {
@@ -757,6 +757,7 @@ const Reservations = () => {
   }, [reservationDate]);
 
   // console.log(reservationDate);
+  // console.log(reservationTime);
 
   return (
     // <div className="mx-auto px-5 flex flex-col flex-1 w-full bg-no-repeat bg-cover bg-[url('/images/nighttime-miami.webp')]">

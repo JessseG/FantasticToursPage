@@ -67,6 +67,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           month: "short",
           day: "numeric",
           year: "numeric",
+          timeZone: "America/New_York",
         }
       );
 
@@ -75,6 +76,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         {
           hour: "numeric",
           minute: "numeric",
+          timeZone: "America/New_York",
         }
       );
 
