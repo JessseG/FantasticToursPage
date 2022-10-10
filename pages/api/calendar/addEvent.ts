@@ -1,7 +1,7 @@
 import { google, Auth } from "googleapis";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const reservation = req.body.reservation;
 
   // console.log("rservation: ", reservation);
@@ -180,24 +180,24 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
         gapiResponse["status"] == 200 &&
         gapiResponse["statusText"] === "OK"
       ) {
-        // console.log("OK");
-        return 1;
-      } else {
-        // console.log("CALENDAR EVENT SET");
+        console.log("gAPI Response: ", gapiResponse);
         return res.status(200).json(gapiResponse);
+      } else {
+        console.log("CALENDAR EVENT failed");
+        return res.status(500).json({ error: gapiResponse });
       }
     } catch (error: any) {
-      // console.log(`Error at insertEvent --> ${error}`);
+      console.log(`Error at insertEvent --> ${error}`);
       return res.status(500).json({ error: error });
     }
   };
 
   insertEvent()
     .then((res) => {
-      // console.log(res);
+      console.log("res: ", res);
     })
     .catch((err) => {
-      // console.log(err);
+      console.log("err: ", err);
     });
 
   // // Event for Google Calendar
@@ -274,4 +274,4 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
   //     console.log(err);
   //   });
 };
-export default addCalendarEvent;
+export default handler;

@@ -35,25 +35,36 @@ const confirmReservation = async (
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ reservation: pendReservation }),
-        }).then(() => res.redirect("/thank_you"));
+        })
+          .then((response: any) => {
+            console.log("Response: ", response);
+            if (response) {
+              console.log("Response.data: ", response.data);
+            }
+            return res.redirect("/thank_you");
+          })
+          .catch(async (error) => {
+            console.log("Error: ", error);
+            return res.redirect("/_error");
+          });
         // .then((response) => response.json())
         // .then((data) => {
         //   return data;
         // });
       } else {
         // console.log("e-1");
-        res.redirect("/_error");
+        return res.redirect("/_error");
       }
     } else {
       // res.status(401).json({ message: "Cannot Validate Pending User: does not exist" });
       // console.log("e-2");
-      res.redirect("/_error");
+      return res.redirect("/_error");
     }
   } catch (e) {
     // return res.status(401).json({ message: "Cannot Validate User" });
     // console.log(e);
     // console.log("e-3");
-    res.redirect("/_error");
+    return res.redirect("/_error");
   }
 };
 
