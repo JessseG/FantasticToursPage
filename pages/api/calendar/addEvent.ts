@@ -108,67 +108,252 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
       //   },
       // };
 
+      const rsvpDate = new Date(reservation.rsvpDate)?.toLocaleDateString(
+        "en-us",
+        {
+          weekday: "long",
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+          timeZone: "America/New_York",
+        }
+      );
+
+      const rsvpTime = new Date(reservation.rsvpTime)?.toLocaleTimeString(
+        "en-us",
+        {
+          hour: "numeric",
+          minute: "numeric",
+          timeZone: "America/New_York",
+        }
+      );
+
+      // After a pending user is created successfully, then do this below
+      // if (pendUser) {
+      const email_subject = "Reservation Confirmation";
+
+      const oddRowColor = "#f5f5f5";
+      const evenRowColor = "white";
+
+      const preRowStyle = [
+        { show: true, style: { rowColor: "" }, type: "Name" }, // Name
+        { show: true, style: { rowColor: "" }, type: "Hotel" }, // Hotel
+        { show: true, style: { rowColor: "" }, type: "Tour" }, // Tour
+        { show: true, style: { rowColor: "" }, type: "Phone" }, // Phone
+        { show: true, style: { rowColor: "" }, type: "Date" }, // Date
+        { show: true, style: { rowColor: "" }, type: "Time" }, // Time
+        { show: true, style: { rowColor: "" }, type: "Adults" }, // Adults
+        {
+          show: reservation.numKids > 0,
+          style: { rowColor: "" },
+          type: "Kids",
+        }, // Kids
+        {
+          show: reservation.reservedBy !== "",
+          style: { rowColor: "" },
+          type: "ReservedBy",
+        }, // ReservedBy
+        {
+          show: reservation.roomNum !== "",
+          style: { rowColor: "" },
+          type: "Room",
+        }, // Room
+        {
+          show: reservation.details !== "",
+          style: { rowColor: "" },
+          type: "Details",
+        }, // Details
+        { show: true, style: { rowColor: "" }, type: "Total" }, // Total
+        {
+          show: reservation.depositPaid,
+          style: { rowColor: "" },
+          type: "Deposit",
+        }, // Deposit
+        {
+          show: reservation.depositPaid,
+          style: { rowColor: "" },
+          type: "Balance",
+        }, // Balance
+      ];
+
+      let i = 0;
+      const rowStyle = preRowStyle.map((row, index) => {
+        if (row.show) {
+          i++; // only increase count for the { show: true } rows
+          if (i % 2 === 0) {
+            row.style.rowColor = oddRowColor;
+          } else if (i % 2 === 1) {
+            row.style.rowColor = evenRowColor;
+          }
+          return row;
+        } else {
+          return row;
+        }
+        // console.log(row.type);
+        // console.log(row.style.rowColor);
+      });
+
+      const html_description = `<h3>Reservation Details</h3>\n
+        <table>
+          <tr>
+              <td><b>Name</b></td>
+              <td>\t${reservation.name}</td>
+          </tr>
+          <tr>
+              <td><b>Phone</b></td>
+              <td>\t${reservation.phone}</td>
+          </tr>
+          <tr>
+              <td><b>Email</b></td>
+              <td>\t${reservation.email}</td>
+          </tr>\n
+          <tr>
+              <td><b>Hotel</b></td>
+              <td>\t${reservation.hotel}</td>
+          </tr>
+          <tr>
+              <td><b>Tour</b></td>
+              <td>\t${reservation.tour}</td>
+          </tr>
+          <tr>
+              <td><b>Date</b></td>
+              <td>\t${rsvpDate}</td>
+          </tr>
+          <tr>
+              <td><b>Time</b></td>
+              <td>\t${rsvpTime}</td>
+          </tr>
+          <tr>
+              <td><b>Adults</b></td>
+              <td>\t${reservation.numAdults}</td>
+          </tr>
+          ${
+            reservation.numKids > 0
+              ? `
+          <tr>
+              <td><b>Kids</b></td>
+              <td>\t${reservation.numKids}</td>
+          </tr>`
+              : ``
+          }
+          ${
+            reservation.reservedBy
+              ? `
+          <tr>
+              <td><b>ReservedBy</b></td>
+              <td>\t${reservation.reservedBy}</td>
+          </tr>
+          `
+              : ``
+          }
+          ${
+            reservation.roomNum
+              ? `
+          <tr>
+              <td><b>Room Num</b></td>
+              <td>\t${reservation.roomNum}</td>
+          </tr>
+          </tr>
+`
+              : ``
+          }
+          ${
+            reservation.details
+              ? `
+          <tr>
+              <td><b>Details</b></td>
+              <td>\t${reservation.details}</td>
+          </tr>\n
+          `
+              : ``
+          }
+          <tr>
+              <td><b>Total</b></td>
+              <td>\t$${reservation.totalPrice}</td>
+          </tr>
+          ${
+            reservation.depositPaid
+              ? `
+          <tr>
+              <td><b>Deposit</b></td>
+              <td>\t${`-${reservation.depositAmount}`}</td>
+          </tr>
+          `
+              : ``
+          }
+          ${
+            reservation.depositPaid
+              ? `
+          <tr>
+              <td><b>Balance</b></td>
+              <td>\t$${reservation.balance}</td>
+          </tr>
+          `
+              : ``
+          }
+        </table>`;
+
+      const eventDescription = html_description.replace(/>\s+</g, "><");
+
+      const newEvent = {
+        summary: `${reservation.numAdults + reservation.numKids} ${
+          reservation.tour
+        } from ${reservation.hotel}`,
+        //   conferenceData: {
+        //     createRequest: {
+        //         requestId: :
+        //     }
+        //   }
+        extendedProperties: {
+          private: {
+            Hotel: "StayBridge",
+            Tour: "Key West",
+          },
+          shared: {
+            Hotel: "StayBridge",
+            Tour: "Key West",
+          },
+        },
+        // location: "800 Howard St., San Francisco, CA 94103",
+        description: eventDescription,
+        start: {
+          dateTime: joinDateTimes(reservation.rsvpDate, reservation.rsvpTime),
+          timeZone: "America/New_York",
+        },
+        end: {
+          dateTime: addOneHour(
+            joinDateTimes(reservation.rsvpDate, reservation.rsvpTime)
+          ),
+          timeZone: "America/New_York",
+        },
+        // attachments: [
+        //   {
+        //     fileUrl:
+        //       "https://www.miamifantastictours.com/_next/image?url=%2Fimages%2Ffantastic-logo-2.png",
+        //     iconLink:
+        //       "https://cdn-icons-png.flaticon.com/512/1055/1055804.png",
+        //   },
+        // ],
+        //   recurrence: ["RRULE:FREQ=DAILY;COUNT=2"],
+        //   attendees: [
+        //     { email: "lpage@example.com" },
+        //     { email: "sbrin@example.com" },
+        //   ],
+        // reminders: {
+        //   useDefault: false,
+        //   overrides: [
+        //     { method: "email", minutes: 24 * 60 },
+        //     { method: "popup", minutes: 10 },
+        //   ],
+        // },
+      };
+
       let gapiResponse = await calendar.events.insert(
         {
           auth: auth,
           calendarId: calendarId,
-          requestBody: {
-            summary: `${reservation.numAdults + reservation.numKids} ${
-              reservation.tour
-            } from ${reservation.hotel}`,
-            //   conferenceData: {
-            //     createRequest: {
-            //         requestId: :
-            //     }
-            //   }
-            extendedProperties: {
-              private: {
-                Hotel: "StayBridge",
-                Tour: "Key West",
-              },
-              shared: {
-                Hotel: "StayBridge",
-                Tour: "Key West",
-              },
-            },
-            // location: "800 Howard St., San Francisco, CA 94103",
-            description: `Hotel: ${reservation.hotel}\nTour: ${
-              reservation.tour
-            }\nAdults: ${reservation.numAdults}\nKids: ${
-              reservation.numKids
-            }\nEmail: ${reservation.email}\nPhone: ${
-              reservation.phone
-            }\n\nTotal: $${reservation.totalPrice}\nDeposit: ${
-              reservation.depositPaid ? `${reservation.depositAmount}` : `none`
-            }\nBalance: $${reservation.balance}\n\nDetails: ${
-              reservation.details ? `${reservation.details}` : "none"
-            }`,
-            start: {
-              dateTime: joinDateTimes(
-                reservation.rsvpDate,
-                reservation.rsvpTime
-              ),
-              timeZone: "America/New_York",
-            },
-            end: {
-              dateTime: addOneHour(
-                joinDateTimes(reservation.rsvpDate, reservation.rsvpTime)
-              ),
-              timeZone: "America/New_York",
-            },
-            //   recurrence: ["RRULE:FREQ=DAILY;COUNT=2"],
-            //   attendees: [
-            //     { email: "lpage@example.com" },
-            //     { email: "sbrin@example.com" },
-            //   ],
-            // reminders: {
-            //   useDefault: false,
-            //   overrides: [
-            //     { method: "email", minutes: 24 * 60 },
-            //     { method: "popup", minutes: 10 },
-            //   ],
-            // },
-          },
+          supportsAttachments: true,
+          requestBody: newEvent,
         }
         //   function (err, event) {
         //     if (err) {

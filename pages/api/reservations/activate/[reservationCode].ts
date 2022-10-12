@@ -29,6 +29,7 @@ const confirmReservation = async (
       ]);
       if (verifiedReservation) {
         // res.status(200).json({ message: "User Validated!" });
+        console.log(pendReservation);
         await fetch(`${process.env.NEXTAUTH_URL}/api/calendar/addEvent`, {
           method: "POST",
           headers: {

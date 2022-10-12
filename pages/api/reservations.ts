@@ -448,7 +448,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                             Deposit
                           </td>
                           <td style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 8px; border-right-width: 1px;">
-                          $${preReservation.depositAmount}
+                          ${preReservation.depositAmount}
                           </td>
                         </tr>
                         `
