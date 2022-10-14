@@ -16,6 +16,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const regexp =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+    // const testDate = new Date(preReservation.time);
+    // console.log(testDate);
+    // console.log("time-input: ", testDate.toISOString());
+
     if (
       !preReservation.name ||
       /^\s*$/.test(preReservation.name) ||

@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
   const reservation = req.body.reservation;
-
+  // return res.json(reservation);   // Postman test
   // console.log("reservation: ", reservation);
   const calendarId = process.env.GOOGLE_CALENDAR_ID;
 
@@ -64,8 +64,42 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
   // };
 
   const joinDateTimes = (date: any, time: any) => {
-    let joinedDateTimes = `${date.split("T")[0]}T${time.split("T")[1]}`;
-    // console.log("Start Time: ", joinedDateTimes);
+    const hour = time.split("T")[1].substring(1, 2);
+    var newDate = new Date(date);
+
+    // Adjusts the day offset
+    if (hour === "0" || hour === "1" || hour === "2" || hour === "3") {
+      newDate.setDate(newDate.getDate() + 1);
+      // console.log("inside");
+    }
+    let joinedDateTimes = `${newDate?.toISOString().toString().split("T")[0]}T${
+      time.split("T")[1]
+    }`;
+
+    // console.log("\n");
+    // console.log("Original Date: ", reservation.rsvpDate);
+    // console.log(
+    //   new Date(reservation.rsvpDate)?.toLocaleDateString("en-us", {
+    //     hour: "2-digit",
+    //     month: "short",
+    //     day: "numeric",
+    //     year: "numeric",
+    //     timeZone: "America/New_York",
+    //   })
+    // );
+    // console.log("");
+    // console.log("Joined DateTime: ", joinedDateTimes);
+    // console.log(
+    //   new Date(joinedDateTimes)?.toLocaleDateString("en-us", {
+    //     hour: "2-digit",
+    //     month: "short",
+    //     day: "numeric",
+    //     year: "numeric",
+    //     timeZone: "America/New_York",
+    //   })
+    // );
+    // console.log("\n");
+
     return joinedDateTimes;
   };
 
@@ -75,11 +109,6 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
     // console.log("End Time: ", baseDate.toISOString());
     return baseDate.toISOString();
   };
-
-  // console.log(
-  //   "Joined Times: ",
-  //   joinDateTimes(reservation.rsvpDate, reservation.rsvpTime)
-  // );
 
   // Insert new event to Google Calendar
   const insertEvent = async () => {
@@ -326,6 +355,7 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
           ),
           timeZone: "America/New_York",
         },
+        colorId: "2",
         // attachments: [
         //   {
         //     fileUrl:
@@ -371,23 +401,25 @@ const addCalendarEvent = async (req: NextApiRequest, res: NextApiResponse) => {
         gapiResponse["statusText"] === "OK"
       ) {
         // console.log("gAPI Response: ", gapiResponse);
-        return res.status(200).json(gapiResponse);
+        return res.status(200).json({ response: gapiResponse });
       } else {
-        // console.log("CALENDAR EVENT SET");
+        // console.log("CALENDAR EVENT FAILED");
         return res.status(500).json({ error: gapiResponse });
       }
     } catch (error: any) {
       // console.log(`Error at insertEvent --> ${error}`);
-      return res.status(500).json({ error: error });
+      return res.status(500).json({
+        error: error,
+      });
     }
   };
 
   insertEvent()
     .then((res) => {
-      // console.log(res);
+      // console.log("line 413", res);
     })
     .catch((err) => {
-      // console.log(err);
+      // console.log("line 416", err);
     });
 
   // // Event for Google Calendar

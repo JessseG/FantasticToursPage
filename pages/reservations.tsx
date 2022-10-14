@@ -19,10 +19,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
   faCircleQuestion,
+  faEnvelope,
+  faExclamationTriangle,
   faHandsHelping,
   faInfo,
   faMinus,
   faMinusSquare,
+  faPhone,
   faPlus,
   faPlusSquare,
   faQuestion,
@@ -52,6 +55,7 @@ const Reservations = () => {
   const summaryModalRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [reservationFailed, setReservationFailed] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [finalFormSubmitted, setFinalFormSubmitted] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
@@ -333,6 +337,7 @@ const Reservations = () => {
           router.reload();
         }, 30000);
       } else {
+        setReservationFailed(true);
         // console.log("Failed ");
         // Failed reservation
 
@@ -388,7 +393,7 @@ const Reservations = () => {
         { label: "Hampton Inn", value: "Hampton Inn" },
         { label: "Hyatt House", value: "Hyatt House" },
         { label: "Hilton Hotel", value: "Hilton Hotel" },
-        { label: "Homeweood Suiites", value: "Homeweood Suiites" },
+        { label: "Homeweood Suites", value: "Homeweood Suites" },
         { label: "Pullman Hotel", value: "Pullman Hotel" },
         { label: "Springhill Suites", value: "Springhill Suites" },
       ],
@@ -522,12 +527,20 @@ const Reservations = () => {
   ];
 
   const tours = [
-    { name: "Big Bus Tour", adultPrice: 80, kidPrice: 80 },
-    { name: "Key West", adultPrice: 80, kidPrice: 80 },
-    { name: "Everglades", adultPrice: 80, kidPrice: 80 },
-    { name: "Boat Tour", adultPrice: 80, kidPrice: 80 },
-    { name: "Zoo Miami", adultPrice: 80, kidPrice: 80 },
-    { name: "Big Bus + Boat", adultPrice: 95, kidPrice: 95 },
+    { name: "Big Bus Tour", adultPrice: 80, kidPrice: 80, singlePrice: null },
+    { name: "Key West", adultPrice: 80, kidPrice: 80, singlePrice: null },
+    { name: "Everglades", adultPrice: 80, kidPrice: 80, singlePrice: null },
+    { name: "Boat Tour", adultPrice: 80, kidPrice: 80, singlePrice: null },
+    { name: "Miami Airport", adultPrice: 10, kidPrice: 8, singlePrice: 40 },
+    { name: "Port of Miami", adultPrice: 15, kidPrice: 12, singlePrice: 50 },
+    {
+      name: "Port of Fort Lauderdale / Port Everglades",
+      adultPrice: null,
+      kidPrice: null,
+      singlePrice: 100,
+    },
+    { name: "Zoo Miami", adultPrice: 80, kidPrice: 80, singlePrice: null },
+    { name: "Big Bus + Boat", adultPrice: 95, kidPrice: 95, singlePrice: null },
     { name: "Private Tour", adultPrice: null, kidPrice: null },
     { name: "Custom Transport", adultPrice: null, kidPrice: null },
   ];
@@ -603,11 +616,11 @@ const Reservations = () => {
   );
 
   // Sets TimePicker Input CSS Styles Dynamically
-  if (formSubmitted && reservationTime === null) {
-    document
-      .querySelector<HTMLElement>(".ant-picker-input > input")
-      ?.style.setProperty("--c", "#ff0000"); // css red
-  }
+  // if (formSubmitted && reservationTime === null) {
+  //   document
+  //     .querySelector<HTMLElement>(".ant-picker-input > input")
+  //     ?.style.setProperty("--c", "#ff0000"); // css red
+  // }
 
   const getTourPrice = (tourName: String) => {
     const tourPrice = tours.filter((tour) => {
@@ -1579,10 +1592,112 @@ const Reservations = () => {
               </div>
             </div>
           )}
+
+          {/* RESERVATION FAILED MESSAGE */}
+          {finalFormSubmitted && reservationFailed && (
+            <div
+              className="-mt-6 -mb-1 relative"
+              // className="m-auto -translate-y-20 pt-14 pb-7 container self-center w-full bg-white max-w-[30rem] rounded-lg border-[0.09rem] border-indigo-300 saturate-[1.5]"
+            >
+              <FontAwesomeIcon
+                icon={faXmark}
+                onClick={() => setReservationFailed(false)}
+                className={`absolute xs:mr-1 my-0.5 right-4 -top-5 cursor-pointer text-neutral-500 contrast-[2.4] 
+                  text-[1.3rem] hover:text-orange-900 hover:scale-[110%] rounded-full p-1 w-[1.2rem]`}
+              />
+              <div className="mx-auto text-center bg-transparent rounded-[2rem] mt-8 mb-6 h-44 w-64 relative">
+                {/* <Image
+                  layout="fill"
+                  className="cursor-pointer"
+                  src="/images/email-icon-shrunk.png"
+                  alt="Home"
+                  title="Home"
+                /> */}
+                <FontAwesomeIcon
+                  icon={faExclamationTriangle}
+                  className={`m-0 top-0 right-0 bottom-0 left-0 rounded-sm+ cursor-pointer text-orange-800 contrast-[2.2] hover:scale-[102%] text-[10.5rem]`}
+                />
+              </div>
+              <h3 className="text-2.7xl mt-5 mb-0 font-semibold text-gray-700 text-center">
+                Reservation Failed
+              </h3>
+              <div className="container mt-0 mx-auto">
+                <div className="mt-5 px-2 py-3 text-center text-black text-sm++ border-[1.3px] border-gray-400 leading-6 mx-11 rounded-sm+">
+                  <div className="mb-1.5 font-semibold underline underline-offset-2 text-base text-red-700 tracking-wide">
+                    IMPORTANT
+                  </div>
+                  <div className="font-semibold leading-5">
+                    Please Try Refreshing the Page and Resubmit{" "}
+                  </div>{" "}
+                  {/* <hr className="mx-5" /> */}
+                  <div className=" border-black">
+                    You can also call us or reach out to us here:
+                  </div>
+                  <div className="mt-4 shrink-0 border-black flex justify-center items-center">
+                    <div className="inline-block border border-zinc-400 pl-2 pr-2.5 py-1 rounded-sm+ hover:scale-[102%]">
+                      <FontAwesomeIcon
+                        icon={faPhone}
+                        onClick={() => {}}
+                        className={`cursor-pointer text-orange-500 rotate-12 rounded-full border-gray-600 text-[1.15rem]`}
+                      />
+                      <div
+                        onClick={() => {}}
+                        className={`inline-block text-zinc-700 font-[sans-serif] ml-3 mr-1 cursor-pointer border-black`}
+                      >
+                        (305) 432 9793
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-3 shrink-0 border-black flex justify-center items-center">
+                    <div className="inline-flex items-center border border-zinc-400 pl-2 pr-2.5 py-1 rounded-sm+ hover:scale-[102%]">
+                      <div
+                        onClick={() => {}}
+                        className={`inline-block relative shrink-0 border-indigo-600 h-[26px] w-[26px]`}
+                      >
+                        <Image
+                          layout="fill"
+                          priority={true}
+                          className="border-black cursor-pointer contrast-[1.4]"
+                          src="/images/whatsapp-icon.png"
+                          alt="logo"
+                        />
+                      </div>
+
+                      <div
+                        onClick={() => {}}
+                        className={`mt-0.5 inline-block text-zinc-700 font-[sans-serif] ml-2 mr-0 cursor-pointer border-black`}
+                      >
+                        (786) 486 7475
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-3 mb-1 shrink-0 border-black flex justify-center items-center">
+                    <div className="inline-flex items-center border border-zinc-400 pl-2 pr-2.5 py-1.5 rounded-sm+ hover:scale-[102%]">
+                      <FontAwesomeIcon
+                        icon={faEnvelope}
+                        onClick={() => {}}
+                        className={`cursor-pointer text-orange-500 rounded-full border-gray-600 hover:scale-[110%] text-[1.2rem]`}
+                      />
+                      <div
+                        onClick={() => {}}
+                        className={`inline-block text-zinc-700 text-base font-[sans-serif] ml-3 mr-0 cursor-pointer border-black`}
+                      >
+                        info@miamifantastictours.com
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-4 text-center text-blue-900 font-semibold text-sm++ leading-6 px-10">
+                  <span className="text-lg-">*</span> Click the Exit icon to
+                  close this message
+                </div>
+              </div>
+            </div>
+          )}
         </form>
       </div>
 
-      {/* MODAL */}
+      {/* SUMMARY MODAL */}
       {showTotals && reservation.tour && reservation.numAdults > 0 && (
         <div
           className={`fixed top-0 right-0 bottom-0 left-0 flex flex-col flex-1 w-full z-50 bg-black bg-opacity-75 px-4`}
