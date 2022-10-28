@@ -803,7 +803,7 @@ const Reservations = () => {
             </div>
           )}
 
-          {!emailSent && !showTotals && (
+          {!emailSent && !reservationFailed && !showTotals && (
             <div
               className={`mx-0 xs:mx-11 sm:mx-14 ${
                 loading ? "opacity-[70%]" : ""
@@ -1596,32 +1596,36 @@ const Reservations = () => {
           {/* RESERVATION FAILED MESSAGE */}
           {finalFormSubmitted && reservationFailed && (
             <div
-              className="-mt-6 -mb-1 relative"
+              className="mt-5 pb-0.5 relative bg-zinc-100 rounded-sm++ container max-w-[30rem]"
               // className="m-auto -translate-y-20 pt-14 pb-7 container self-center w-full bg-white max-w-[30rem] rounded-lg border-[0.09rem] border-indigo-300 saturate-[1.5]"
             >
-              <FontAwesomeIcon
-                icon={faXmark}
-                onClick={() => setReservationFailed(false)}
-                className={`absolute xs:mr-1 my-0.5 right-4 -top-5 cursor-pointer text-neutral-500 contrast-[2.4] 
+              <div>
+                <FontAwesomeIcon
+                  icon={faXmark}
+                  onClick={() => setReservationFailed(false)}
+                  className={`absolute xs:mr-1 my-0.5 right-4 top-5 cursor-pointer text-neutral-500 contrast-[2.4] 
                   text-[1.3rem] hover:text-orange-900 hover:scale-[110%] rounded-full p-1 w-[1.2rem]`}
-              />
-              <div className="mx-auto text-center bg-transparent rounded-[2rem] mt-8 mb-6 h-44 w-64 relative">
-                {/* <Image
+                />
+              </div>
+              {/* <div className="mx-auto text-center bg-transparent rounded-[2rem] mt-8 mb-6 h-44 w-64 relative"> */}
+              {/* <Image
                   layout="fill"
                   className="cursor-pointer"
                   src="/images/email-icon-shrunk.png"
                   alt="Home"
                   title="Home"
                 /> */}
+              <div className="w-full text-center">
                 <FontAwesomeIcon
                   icon={faExclamationTriangle}
-                  className={`m-0 top-0 right-0 bottom-0 left-0 rounded-sm+ cursor-pointer text-orange-800 contrast-[2.2] hover:scale-[102%] text-[10.5rem]`}
+                  className={`mx-auto mt-14 rounded-sm+ cursor-pointer text-orange-800 contrast-[2.2] hover:scale-[102%] text-[9rem]`}
                 />
               </div>
+              {/* </div> */}
               <h3 className="text-2.7xl mt-5 mb-0 font-semibold text-gray-700 text-center">
                 Reservation Failed
               </h3>
-              <div className="container mt-0 mx-auto">
+              <div className="container mt-0 pb-3.5 mx-auto">
                 <div className="mt-5 px-2 py-3 text-center text-black text-sm++ border-[1.3px] border-gray-400 leading-6 mx-11 rounded-sm+">
                   <div className="mb-1.5 font-semibold underline underline-offset-2 text-base text-red-700 tracking-wide">
                     IMPORTANT
@@ -1633,26 +1637,28 @@ const Reservations = () => {
                   <div className=" border-black">
                     You can also call us or reach out to us here:
                   </div>
-                  <div className="mt-4 shrink-0 border-black flex justify-center items-center">
-                    <div className="inline-block border border-zinc-400 pl-2 pr-2.5 py-1 rounded-sm+ hover:scale-[102%]">
-                      <FontAwesomeIcon
-                        icon={faPhone}
-                        onClick={() => {}}
-                        className={`cursor-pointer text-orange-500 rotate-12 rounded-full border-gray-600 text-[1.15rem]`}
-                      />
-                      <div
-                        onClick={() => {}}
-                        className={`inline-block text-zinc-700 font-[sans-serif] ml-3 mr-1 cursor-pointer border-black`}
-                      >
-                        (305) 432 9793
+                  <div className="mt-4 shrink-0 flex justify-center items-center">
+                    <div className="inline-block border border-zinc-500 rounded-sm+ hover:scale-[102%]">
+                      <div className="bg-white rounded-sm+ pl-2 pr-2.5 py-1">
+                        <FontAwesomeIcon
+                          icon={faPhone}
+                          onClick={() => {}}
+                          className={`cursor-pointer text-orange-500 rotate-12 rounded-full border-gray-600 text-[1.15rem]`}
+                        />
+                        <div
+                          onClick={() => {}}
+                          className={`inline-block bg-transparent text-zinc-700 font-[sans-serif] ml-3 mr-1 cursor-pointer`}
+                        >
+                          (305) 432 9793
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="mt-3 shrink-0 border-black flex justify-center items-center">
-                    <div className="inline-flex items-center border border-zinc-400 pl-2 pr-2.5 py-1 rounded-sm+ hover:scale-[102%]">
+                    <div className="inline-flex items-center border border-zinc-500 pl-2 pr-2.5 py-1 bg-white rounded-sm+ hover:scale-[102%]">
                       <div
                         onClick={() => {}}
-                        className={`inline-block relative shrink-0 border-indigo-600 h-[26px] w-[26px]`}
+                        className={`inline-block bg-white relative shrink-0 border-indigo-600 h-[26px] w-[26px]`}
                       >
                         <Image
                           layout="fill"
@@ -1665,14 +1671,14 @@ const Reservations = () => {
 
                       <div
                         onClick={() => {}}
-                        className={`mt-0.5 inline-block text-zinc-700 font-[sans-serif] ml-2 mr-0 cursor-pointer border-black`}
+                        className={`mt-0.5 inline-block bg-transparent text-zinc-700 font-[sans-serif] ml-2 mr-0 cursor-pointer border-black`}
                       >
                         (786) 486 7475
                       </div>
                     </div>
                   </div>
                   <div className="mt-3 mb-1 shrink-0 border-black flex justify-center items-center">
-                    <div className="inline-flex items-center border border-zinc-400 pl-2 pr-2.5 py-1.5 rounded-sm+ hover:scale-[102%]">
+                    <div className="inline-flex items-center bg-white border border-zinc-500 bg-border-zinc-400 pl-2 pr-2.5 py-1.5 rounded-sm+ hover:scale-[102%]">
                       <FontAwesomeIcon
                         icon={faEnvelope}
                         onClick={() => {}}

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<body style="
+                      background: white;
+                      ">
+
+    <table style="
+                          text-align: center;
+                          width: 100%;
+                          border: none;
+                          padding: 0;
+                          border-spacing: 20;
+                          border-collapse: separate;
+                        ">
+        <tbody>
+            <tr>
+                <td style="
+                              text-align: center;
+                              padding: 0px;
+                              font-size: 1.4rem;
+                              font-family: Helvetica, Arial, sans-serif;
+                              color: #444444;
+                            ">
+                    <strong>Reservation Details</strong>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <table style="
+                                border: none;
+                                text-align: center;
+                                margin-right: auto;
+                                margin-left: auto;
+                                font-family: Arial, Helvetica, sans-serif;
+                                border-collapse: collapse;
+                                width: 100%;
+                                max-width: 500px;
+                              ">
+                        <tbody>
+                            <tr style="background-color: #758aff;">
+                                <th class="table-th" style="
+                                      border-top-left-radius: 0.27rem;
+                                      text-align: center;
+                                      color: white;
+                                      padding: 5px;
+                                      width: 35%;
+                                    ">
+                                    Info
+                                </th>
+                                <th class="table-th" style="
+                                      border-top-right-radius: 0.27rem;
+                                      text-align: center;
+                                      color: white;
+                                      padding: 5px;
+                                    ">
+                                    Details
+                                </th>
+                            </tr>
+                            <tr style=" 
+                                    background-color: ${
+                                      rowStyle[0].style.rowColor
+                                    };
+                                  ">
+                                <td style="
+                                      font-weight: 600;
+                                      border: 1px solid #ddd;
+                                      border-left-width: 1px;
+                                      padding: 5px;
+                                    ">
+                                    Name
+                                </td>
+                                <td style="
+                                      border: 1px solid #ddd;
+                                      border-right-width: 1px;
+                                      padding: 5px;
+                                    ">
+                                    ${reservation.name}
+                                </td>
+                            </tr>
+                            <tr style="
+                                    background-color: ${
+                                      rowStyle[1].style.rowColor
+                                    };
+                                  ">
+                                <td style="
+                                      font-weight: 600;
+                                      border: 1px solid #ddd;
+                                      border-left-width: 1px;
+                                      padding: 5px;
+                                    ">
+                                    Hotel
+                                </td>
+                                <td style="
+                                      border: 1px solid #ddd;
+                                      border-right-width: 1px;
+                                      padding: 5px;
+                                      ">
+                                    ${reservation.hotel}
+                                </td>
+                            </tr>
+                            <tr style=" 
+                                    background-color: ${
+                                      rowStyle[2].style.rowColor
+                                    };
+                                  ">
+                                <td style="
+                                      font-weight: 600;
+                                      border: 1px solid #ddd;
+                                      border-left-width: 1px;
+                                      padding: 5px;
+                                    ">
+                                    Tour
+                                </td>
+                                <td style="
+                                      border: 1px solid #ddd;
+                                      border-right-width: 1px;
+                                      padding: 5px;
+                                    ">
+                                    ${reservation.tour}
+                                </td>
+                            </tr>
+                            <tr style="
+                                    background-color: ${
+                                      rowStyle[3].style.rowColor
+                                    };
+                                  ">
+                                <td style="
+                                      font-weight: 600;
+                                      border: 1px solid #ddd;
+                                      border-left-width: 1px;
+                                      padding: 5px;
+                                    ">
+                                    Phone
+                                </td>
+                                <td style="
+                                      border: 1px solid #ddd" ; padding: 5px; border-right-width: 1px;">
+                                    ${reservation.phone}
+                                </td>
+                            </tr>
+                            <tr style=" 
+                        background-color: ${rowStyle[4].style.rowColor};
+                      ">
+                                <td
+                                    style=" font-weight: 600; border: 1px solid #ddd; padding: 5px; border-left-width: 1px;">
+                                    Date
+                                </td>
+                                <td style=" border: 1px solid #ddd; padding: 5px; border-right-width: 1px;">
+                                    ${rsvpDate}
+                                </td>
+                            </tr>
+                            <tr style=" background-color: ${
+                          rowStyle[5].style.rowColor
+                        }; ">
+                                <td
+                                    style=" font-weight: 600; border: 1px solid #ddd; padding: 5px; border-left-width: 1px;">
+                                    Time
+                                </td>
+                                <td style=" border: 1px solid #ddd; padding: 5px; border-right-width: 1px;">
+                                    ${rsvpTime}
+                                </td>
+                            </tr>
+                            <tr style=" 
+                        background-color: ${rowStyle[6].style.rowColor};
+                      ">
+                                <td
+                                    style=" font-weight: 600; border: 1px solid #ddd; padding: 5px; border-left-width: 1px;">
+                                    Adults
+                                </td>
+                                <td style=" border: 1px solid #ddd; padding: 5px; border-right-width: 1px; ">
+                                    ${reservation.numAdults}
+                                </td>
+                            </tr>
+
+                            ${
+                            reservation.numKids > 0
+                            ? `
+                            <tr style=" background-color: ${rowStyle[7].style.rowColor}; ">
+                                <td
+                                    style=" font-weight: 600; border: 1px solid #ddd; padding: 5px; border-left-width: 1px;">
+                                    Kids
+                                </td>
+                                <td style=" border: 1px solid #ddd; padding: 5px; border-right-width: 1px;">
+                                    ${reservation.numKids}
+                                </td>
+                            </tr>
+                            `
+                            : ``
+                            }
+
+                            ${
+                            reservation.reservedBy
+                            ? `
+                            <tr style=" 
+                          background-color: ${rowStyle[8].style.rowColor};
+                        ">
+                                <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
+                          padding: 5px; border-left-width: 1px;">
+                                    ReservedBy
+                                </td>
+                                <td
+                                    style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 5px; border-right-width: 1px;">
+                                    ${reservation.reservedBy}
+                                </td>
+                            </tr>
+                            `
+                            : ``
+                            }
+                            ${
+                            reservation.roomNum
+                            ? `
+                            <tr style=" background-color: ${rowStyle[9].style.rowColor}; ">
+                                <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
+                          padding: 5px; border-left-width: 1px;">
+                                    Room Num
+                                </td>
+                                <td
+                                    style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 5px; border-right-width: 1px;">
+                                    ${reservation.roomNum}
+                                </td>
+                            </tr>
+                            `
+                            : ``
+                            }
+                            ${
+                            reservation.details
+                            ? `
+                            <tr style=" 
+                          background-color: ${rowStyle[10].style.rowColor};
+                          ">
+                                <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
+                          padding: 5px; border-left-width: 1px;">
+                                    Details
+                                </td>
+                                <td
+                                    style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 5px; border-right-width: 1px;">
+                                    ${reservation.details}
+                                </td>
+                            </tr>
+                            `
+                            : ``
+                            }
+                            <tr style=" background-color: ${
+                          rowStyle[11].style.rowColor
+                        }; ">
+                                <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
+                          padding: 5px; border-left-width: 1px;">
+                                    Total
+                                </td>
+                                <td
+                                    style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 5px; border-right-width: 1px;">
+                                    $${reservation.totalPrice}
+                                </td>
+                            </tr>
+
+                            ${
+                            reservation.depositPaid
+                            ? `
+                            <tr style=" background-color: ${rowStyle[12].style.rowColor}; ">
+                                <td
+                                    style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd; padding: 5px; border-left-width: 1px;">
+                                    Deposit
+                                </td>
+                                <td
+                                    style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 5px; border-right-width: 1px;">
+                                    $${reservation.depositAmount}
+                                </td>
+                            </tr>
+                            `
+                            : ``
+                            }
+
+                            ${
+                            reservation.depositPaid
+                            ? `
+                            <tr style=" background-color: ${rowStyle[13].style.rowColor}; ">
+                                <td
+                                    style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd; padding: 5px; border-left-width: 1px;">
+                                    Balance
+                                </td>
+                                <td
+                                    style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 5px; border-right-width: 1px;">
+                                    $${reservation.balance}
+                                </td>
+                            </tr>
+                            `
+                            : ``
+                            }
+
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="
+                    text-align: center;
+                    padding: 15px 0px 5px 0px;
+                    text-decoration: underline;
+                    font-size: 12.3px;
+                    line-height: 17px;
+                    font-family: Helvetica, Arial, sans-serif;
+                    color: #444444;
+                  ">
+                    If you did not request this email you can safely ignore it.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

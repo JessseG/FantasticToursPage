@@ -1,0 +1,285 @@
+<!-- string.replace(/>\s+</g,'><'); -->
+
+const html_description = `
+<strong>
+    <h4>Reservation Details</h4>
+</strong><br>
+
+<table>
+    <tr>
+        <td><b>Name</b></td>
+        <td>\t${reservation.name}</td>
+    </tr>
+    <tr>
+        <td><b>Phone</b></td>
+        <td>\t${reservation.phone}</td>
+    </tr>
+    <tr>
+        <td><b>Email</b></td>
+        <td>\t${reservation.email}</td>
+    </tr>
+    <tr>
+        <td><b>Hotel</b></td>
+        <td>\t${reservation.hotel}</td>
+    </tr>
+    <tr>
+        <td><b>Tour</b></td>
+        <td>\t${reservation.tour}</td>
+    </tr>
+    <tr>
+        <td><b>Date</b></td>
+        <td>\t${rsvpDate}</td>
+    </tr>
+    <tr>
+        <td><b>Time</b></td>
+        <td>\t${rsvpTime}</td>
+    </tr>
+    <tr>
+        <td><b>Adults</b></td>
+        <td>\t${reservation.numAdults}</td>
+    </tr>
+    <tr>
+        <td><b>Kids</b></td>
+        <td>\t${reservation.numKids}</td>
+    </tr>
+    <tr>
+        <td><b>ReservedBy</b></td>
+        <td>\t${reservation.reservedBy}</td>
+    </tr>
+    <tr>
+        <td><b>Room Num</b></td>
+        <td>\t${reservation.roomNum}</td>
+    </tr>
+    <tr>
+        <td><b>Room Num</b></td>
+        <td>\t${reservation.details}</td>
+    </tr>\n
+    <tr>
+        <td><b>Total</b></td>
+        <td>\t${reservation.totalPrice}</td>
+    </tr>
+    <tr>
+        <td><b>Deposit</b></td>
+        <td>\t${reservation.depositAmount}</td>
+    </tr>
+    <tr>
+        <td><b>Balance</b></td>
+        <td>\t${reservation.balance}</td>
+    </tr>
+</table>`;
+
+<tr style="background-color: #758aff;">
+    <th class="" style="
+                border-top-left-radius: 0.27rem;
+                text-align: center;
+                color: white;
+                width: 35%;
+              ">
+        Info
+    </th>
+    <th class="" style="
+                border-top-right-radius: 0.27rem;
+                text-align: center;
+                color: white;
+              ">
+        Details
+    </th>
+</tr>
+<tr style=" 
+              background-color: ${rowStyle[0].style.rowColor};
+            ">
+    <td style="
+                font-weight: 600;
+                border: 1px solid #ddd;
+                border-left-width: 1px;
+              ">
+        Name
+    </td>
+    <td style="
+                border: 1px solid #ddd;
+                border-right-width: 1px;
+              ">
+        ${reservation.name}
+    </td>
+</tr>
+<tr style="
+              background-color: ${rowStyle[1].style.rowColor};
+            ">
+    <td style="
+                font-weight: 600;
+                border: 1px solid #ddd;
+                border-left-width: 1px;
+              ">
+        Hotel
+    </td>
+    <td style="
+                border: 1px solid #ddd;
+                border-right-width: 1px;
+                ">
+        ${reservation.hotel}
+    </td>
+</tr>
+<tr style=" 
+              background-color: ${rowStyle[2].style.rowColor};
+            ">
+    <td style="
+                font-weight: 600;
+                border: 1px solid #ddd;
+                border-left-width: 1px;
+              ">
+        Tour
+    </td>
+    <td style="
+                border: 1px solid #ddd;
+                border-right-width: 1px;
+              ">
+        ${reservation.tour}
+    </td>
+</tr>
+<tr style="
+              background-color: ${rowStyle[3].style.rowColor};
+            ">
+    <td style="
+                font-weight: 600;
+                border: 1px solid #ddd;
+                border-left-width: 1px;
+              ">
+        Phone
+    </td>
+    <td style="
+                border: 1px solid #ddd" ; border-right-width: 1px;">
+        ${reservation.phone}
+    </td>
+</tr>
+<tr style=" 
+  background-color: ${rowStyle[4].style.rowColor};
+">
+    <td style=" font-weight: 600; border: 1px solid #ddd;  border-left-width: 1px;">
+        Date
+    </td>
+    <td style=" border: 1px solid #ddd;  border-right-width: 1px;">
+        ${rsvpDate}
+    </td>
+</tr>
+<tr style=" background-color: ${rowStyle[5].style.rowColor}; ">
+    <td style=" font-weight: 600; border: 1px solid #ddd;  border-left-width: 1px;">
+        Time
+    </td>
+    <td style=" border: 1px solid #ddd;  border-right-width: 1px;">
+        ${rsvpTime}
+    </td>
+</tr>
+<tr style=" 
+  background-color: ${rowStyle[6].style.rowColor};
+">
+    <td style=" font-weight: 600; border: 1px solid #ddd;  border-left-width: 1px;">
+        Adults
+    </td>
+    <td style=" border: 1px solid #ddd;  border-right-width: 1px; ">
+        ${reservation.numAdults}
+    </td>
+</tr>
+
+${
+reservation.numKids > 0
+? `
+<tr style=" background-color: ${rowStyle[7].style.rowColor}; ">
+    <td style=" font-weight: 600; border: 1px solid #ddd;  border-left-width: 1px;">
+        Kids
+    </td>
+    <td style=" border: 1px solid #ddd;  border-right-width: 1px;">
+        ${reservation.numKids}
+    </td>
+</tr>
+`
+: ``
+}
+
+${
+reservation.reservedBy
+? `
+<tr style=" 
+    background-color: ${rowStyle[8].style.rowColor};
+  ">
+    <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
+     border-left-width: 1px;">
+        ReservedBy
+    </td>
+    <td style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd;  border-right-width: 1px;">
+        ${reservation.reservedBy}
+    </td>
+</tr>
+`
+: ``
+}
+${
+reservation.roomNum
+? `
+<tr style=" background-color: ${rowStyle[9].style.rowColor}; ">
+    <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
+     border-left-width: 1px;">
+        Room Num
+    </td>
+    <td style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd;  border-right-width: 1px;">
+        ${reservation.roomNum}
+    </td>
+</tr>
+`
+: ``
+}
+${
+reservation.details
+? `
+<tr style=" 
+    background-color: ${rowStyle[10].style.rowColor};
+    ">
+    <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
+     border-left-width: 1px;">
+        Details
+    </td>
+    <td style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd;  border-right-width: 1px;">
+        ${reservation.details}
+    </td>
+</tr>
+`
+: ``
+}
+<tr style=" background-color: ${rowStyle[11].style.rowColor}; ">
+    <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
+     border-left-width: 1px;">
+        Total
+    </td>
+    <td style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd;  border-right-width: 1px;">
+        $${reservation.totalPrice}
+    </td>
+</tr>
+
+${
+reservation.depositPaid
+? `
+<tr style=" background-color: ${rowStyle[12].style.rowColor}; ">
+    <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;  border-left-width: 1px;">
+        Deposit
+    </td>
+    <td style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd;  border-right-width: 1px;">
+        $${reservation.depositAmount}
+    </td>
+</tr>
+`
+: ``
+}
+
+${
+reservation.depositPaid
+? `
+<tr style=" background-color: ${rowStyle[13].style.rowColor}; ">
+    <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;  border-left-width: 1px;">
+        Balance
+    </td>
+    <td style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd;  border-right-width: 1px;">
+        $${reservation.balance}
+    </td>
+</tr>
+`
+: ``
+}
