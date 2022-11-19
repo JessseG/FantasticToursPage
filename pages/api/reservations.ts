@@ -44,7 +44,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // try {
     try {
-      var pendReservation = await prisma.pendReservation.create({
+      var pendReservation = await   .pendReservation.create({
         data: preReservation,
         select: {
           id: true,

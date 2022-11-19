@@ -371,3 +371,6 @@
     padding: 8px 0px 5px 0px; text-decoration: underline; font-size: 12px; line-height: 17px; font-family: Helvetica, Arial, sans-serif; color: #444444;
   }
 
+ .font-has {
+  font-family: Helvetica, Arial, sans-serif;
+ }
