@@ -374,3 +374,13 @@
  .font-has {
   font-family: Helvetica, Arial, sans-serif;
  }
+
+ .abs-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+ }
+
+ td:hover {
+  /* filter: contrast(1.5); */
+ }

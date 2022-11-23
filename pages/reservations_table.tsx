@@ -33,6 +33,14 @@ import NProgress from "nprogress";
 // const Reservations_Table = ({ allRsvps: props }: { allRsvps: AllReservations }) => {
 const Reservations_Table = () => {
   const [reservations, setReservations] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(0);
+  const [hiddenColumns, setHiddenColumns] = useState({
+    showTo: false,
+    showFrom: false,
+    showEmail: false,
+    showCreatedAt: false,
+    showUpdatedAt: false,
+  });
 
   // // If fullCom fails, error comes in
   // const { data: allRsvps, error } = useSWR("/api/reservations/findReservations", fetchData, {
@@ -41,6 +49,14 @@ const Reservations_Table = () => {
   // });
 
   useEffect(() => {
+    setWindowWidth(window.innerWidth); // set initial windowWidth
+
+    const updateScreenWidth = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", updateScreenWidth);
+
     // api request
     const getReservations = async () => {
       // console.log("ran");
@@ -61,7 +77,32 @@ const Reservations_Table = () => {
     };
 
     getReservations();
+
+    setHiddenColumns((prevState) => {
+      return {
+        ...prevState,
+        showCreatedAt: window.innerWidth > 1800,
+        showUpdatedAt: window.innerWidth > 1800,
+      };
+    });
+
+    return () => {
+      window.removeEventListener("resize", updateScreenWidth);
+    };
   }, []);
+
+  useEffect(() => {
+    setHiddenColumns((prevState) => {
+      return {
+        ...prevState,
+        showTo: window.innerWidth > 800,
+        showFrom: window.innerWidth > 800,
+        showEmail: window.innerWidth > 800,
+        showCreatedAt: window.innerWidth > 1800,
+        showUpdatedAt: window.innerWidth > 1800,
+      };
+    });
+  }, [windowWidth]);
 
   const formatDate = (date: any) => {
     return new Date(date)?.toLocaleDateString("en-us", {
@@ -99,392 +140,8 @@ const Reservations_Table = () => {
   const oddRowColor = "#f5f5f5";
   const evenRowColor = "white";
 
-  // const reservationsTable = `
-  //           <table style="
-  //                       width: 100%;
-  //                       margin: auto;
-  //                       border: none;
-  //                       padding: 0;
-  //                       border-spacing: 0;
-  //                       border-collapse: separate;
-  //                     ">
-  //             <tbody>
-  //               <tr>
-  //                 <td style="
-  //                             text-align: center;
-  //                             padding: 10px 0px 20px 0px;
-  //                             font-size: 22px;
-  //                             font-family: Helvetica, Arial, sans-serif;
-  //                             color: #444444;
-  //                           "></td>
-  //               </tr>
-  //             </tbody>
-  //           </table>
-
-  //           <table style="
-  //                         text-align: center;
-  //                         width: 100%;
-  //                         border: none;
-  //                         padding: 0;
-  //                         border-spacing: 20;
-  //                         border-collapse: separate;
-  //                       ">
-  //             <tbody>
-  //               <tr>
-  //                 <td style="
-  //                             text-align: center;
-  //                             padding: 2.5rem 0px 0px 0px;
-  //                             font-size: 1.4rem;
-  //                             font-family: Helvetica, Arial, sans-serif;
-  //                             color: #444444;
-  //                           ">
-  //                   <strong>Thank you for Reserving with Fantastic Tours!</strong>
-  //                 </td>
-  //               </tr>
-  //               <tr>
-  //                 <td style="
-  //                             text-align: center;
-  //                             padding: 10px 0px 10px 0px;
-  //                             font-size: 15px;
-  //                             font-family: Helvetica, Arial, sans-serif;
-  //                             color: #444444;
-  //                           ">
-  //                   Here are all your reservation details
-  //                 </td>
-  //               </tr>
-  //               <tr>
-  //                 <td>
-  //                   <table style="
-  //                               border: none;
-  //                               text-align: center;
-  //                               margin-right: auto;
-  //                               margin-left: auto;
-  //                               font-family: Arial, Helvetica, sans-serif;
-  //                               border-collapse: collapse;
-  //                               width: 87%;
-  //                               max-width: 650px;
-  //                             ">
-  //                     <tbody>
-  //                       <tr style="background-color: #758aff;">
-  //                         <th class="table-th" style="
-  //                                     border-top-left-radius: 0.27rem;
-  //                                     text-align: center;
-  //                                     padding-top: 12px;
-  //                                     padding-bottom: 12px;
-  //                                     color: white;
-  //                                     padding: 8px;
-  //                                     width: 35%;
-  //                                   ">
-  //                           Info
-  //                         </th>
-  //                         <th class="table-th" style="
-  //                                     border-top-right-radius: 0.27rem;
-  //                                     text-align: center;
-  //                                     padding-top: 12px;
-  //                                     padding-bottom: 12px;
-  //                                     color: white;
-  //                                     padding: 8px;
-  //                                   ">
-  //                           Details
-  //                         </th>
-  //                       </tr>
-  //                       <tr style="
-  //                                   background-color: ${
-  //                                     rowStyle[0].style.rowColor
-  //                                   };
-  //                                 ">
-  //                         <td style="
-  //                                     font-weight: 600;
-  //                                     border: 1px solid #ddd;
-  //                                     border-left-width: 1px;
-  //                                     padding: 8px;
-  //                                   ">
-  //                           Name
-  //                         </td>
-  //                         <td style="
-  //                                     border: 1px solid #ddd;
-  //                                     border-right-width: 1px;
-  //                                     padding: 8px;
-  //                                   ">
-  //                           ${reservation.name}
-  //                         </td>
-  //                       </tr>
-  //                       <tr style="
-  //                                   background-color: ${
-  //                                     rowStyle[1].style.rowColor
-  //                                   };
-  //                                 ">
-  //                         <td style="
-  //                                     font-weight: 600;
-  //                                     border: 1px solid #ddd;
-  //                                     border-left-width: 1px;
-  //                                     padding: 8px;
-  //                                   ">
-  //                           Hotel
-  //                         </td>
-  //                         <td style="
-  //                                     border: 1px solid #ddd;
-  //                                     border-right-width: 1px;
-  //                                     padding: 8px;
-  //                                     ">
-  //                           ${reservation.hotel}
-  //                         </td>
-  //                       </tr>
-  //                       <tr style="
-  //                                   background-color: ${
-  //                                     rowStyle[2].style.rowColor
-  //                                   };
-  //                                 ">
-  //                         <td style="
-  //                                     font-weight: 600;
-  //                                     border: 1px solid #ddd;
-  //                                     border-left-width: 1px;
-  //                                     padding: 8px;
-  //                                   ">
-  //                           Tour
-  //                         </td>
-  //                         <td style="
-  //                                     border: 1px solid #ddd;
-  //                                     border-right-width: 1px;
-  //                                     padding: 8px;
-  //                                   ">
-  //                           ${reservation.tour}
-  //                         </td>
-  //                       </tr>
-  //                       <tr style="
-  //                                   background-color: ${
-  //                                     rowStyle[3].style.rowColor
-  //                                   };
-  //                                 ">
-  //                         <td style="
-  //                                     font-weight: 600;
-  //                                     border: 1px solid #ddd;
-  //                                     border-left-width: 1px;
-  //                                     padding: 8px;
-  //                                   ">
-  //                           Phone
-  //                         </td>
-  //                         <td style="
-  //                                     border: 1px solid #ddd" ; padding: 8px; border-right-width: 1px;">
-  //                           ${reservation.phone}
-  //                         </td>
-  //                       </tr>
-  //                       <tr style="
-  //                       background-color: ${rowStyle[4].style.rowColor};
-  //                     ">
-  //                         <td style=" font-weight: 600; border: 1px solid #ddd; padding: 8px; border-left-width: 1px;">
-  //                           Date
-  //                         </td>
-  //                         <td style=" border: 1px solid #ddd; padding: 8px; border-right-width: 1px;">
-  //                           ${rsvpDate}
-  //                         </td>
-  //                       </tr>
-  //                       <tr style=" background-color: ${
-  //                         rowStyle[5].style.rowColor
-  //                       }; ">
-  //                         <td style=" font-weight: 600; border: 1px solid #ddd; padding: 8px; border-left-width: 1px;">
-  //                           Time
-  //                         </td>
-  //                         <td style=" border: 1px solid #ddd; padding: 8px; border-right-width: 1px;">
-  //                           ${rsvpTime}
-  //                         </td>
-  //                       </tr>
-  //                       <tr style="
-  //                       background-color: ${rowStyle[6].style.rowColor};
-  //                     ">
-  //                         <td style=" font-weight: 600; border: 1px solid #ddd; padding: 8px; border-left-width: 1px;">
-  //                           Adults
-  //                         </td>
-  //                         <td style=" border: 1px solid #ddd; padding: 8px; border-right-width: 1px; ">
-  //                           ${reservation.numAdults}
-  //                         </td>
-  //                       </tr>
-
-  //                       ${
-  //                         reservation.numKids > 0
-  //                           ? `
-  //                       <tr style=" background-color: ${rowStyle[7].style.rowColor}; ">
-  //                         <td style=" font-weight: 600; border: 1px solid #ddd; padding: 8px; border-left-width: 1px;">
-  //                           Kids
-  //                         </td>
-  //                         <td style=" border: 1px solid #ddd; padding: 8px; border-right-width: 1px;">
-  //                           ${reservation.numKids}
-  //                         </td>
-  //                       </tr>
-  //                       `
-  //                           : ``
-  //                       }
-
-  //                       ${
-  //                         reservation.reservedBy
-  //                           ? `
-  //                       <tr style="
-  //                         background-color: ${rowStyle[8].style.rowColor};
-  //                       ">
-  //                         <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
-  //                         padding: 8px; border-left-width: 1px;">
-  //                           ReservedBy
-  //                         </td>
-  //                         <td
-  //                           style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 8px; border-right-width: 1px;">
-  //                           ${reservation.reservedBy}
-  //                         </td>
-  //                       </tr>
-  //                       `
-  //                           : ``
-  //                       }
-  //                       ${
-  //                         reservation.roomNum
-  //                           ? `
-  //                       <tr style=" background-color: ${rowStyle[9].style.rowColor}; ">
-  //                         <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
-  //                         padding: 8px; border-left-width: 1px;">
-  //                           Room Num
-  //                         </td>
-  //                         <td
-  //                           style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 8px; border-right-width: 1px;">
-  //                           ${reservation.roomNum}
-  //                         </td>
-  //                       </tr>
-  //                       `
-  //                           : ``
-  //                       }
-  //                       ${
-  //                         reservation.details
-  //                           ? `
-  //                         <tr style="
-  //                         background-color: ${rowStyle[10].style.rowColor};
-  //                         ">
-  //                         <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
-  //                         padding: 8px; border-left-width: 1px;">
-  //                         Details
-  //                         </td>
-  //                         <td
-  //                         style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 8px; border-right-width: 1px;">
-  //                         ${reservation.details}
-  //                         </td>
-  //                         </tr>
-  //                         `
-  //                           : ``
-  //                       }
-  //                       <tr style=" background-color: ${
-  //                         rowStyle[11].style.rowColor
-  //                       }; ">
-  //                         <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd;
-  //                         padding: 8px; border-left-width: 1px;">
-  //                           Total
-  //                         </td>
-  //                         <td
-  //                           style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 8px; border-right-width: 1px;">
-  //                           $${reservation.totalPrice}
-  //                         </td>
-  //                       </tr>
-
-  //                       ${
-  //                         reservation.depositPaid
-  //                           ? `
-  //                       <tr style=" background-color: ${rowStyle[12].style.rowColor}; ">
-  //                         <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd; padding: 8px; border-left-width: 1px;">
-  //                           Deposit
-  //                         </td>
-  //                         <td style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 8px; border-right-width: 1px;">
-  //                         ${reservation.depositAmount}
-  //                         </td>
-  //                       </tr>
-  //                       `
-  //                           : ``
-  //                       }
-
-  //                       ${
-  //                         reservation.depositPaid
-  //                           ? `
-  //                       <tr style=" background-color: ${rowStyle[13].style.rowColor}; ">
-  //                         <td style=" border-bottom-left-radius: 0.27rem; font-weight: 600; border: 1px solid #ddd; padding: 8px; border-left-width: 1px;">
-  //                           Balance
-  //                         </td>
-  //                         <td
-  //                           style=" border-bottom-right-radius: 0.27rem; border: 1px solid #ddd; padding: 8px; border-right-width: 1px;">
-  //                           $${reservation.balance}
-  //                         </td>
-  //                       </tr>
-  //                       `
-  //                           : ``
-  //                       }
-
-  //                     </tbody>
-  //                   </table>
-  //                 </td>
-  //               </tr>
-  //               <tr style=" height: 40px; display: flex; flex-direction: row; padding-top: 1.1rem;">
-  //                 <td style=" padding-right: 10px; width: 50%; text-align: right;">
-  //                   <a href=" ${
-  //                     process.env.NEXTAUTH_URL
-  //                   }/api/reservations/activate/${
-  //   pendReservation.id
-  // }" target="_blank" style="
-  //                     text-align: center;
-  //                     border-radius: 5px;
-  //                     background-color: #f7a116;
-  //                     font-size: 14.5px;
-  //                     font-family: Helvetica, Arial, sans-serif;
-  //                     color: white;
-  //                     text-decoration: none;
-  //                     padding: 7px 15px;
-  //                     border: 1px solid rgb(228, 228, 231);
-  //                     display: inline-block;
-  //                     font-weight: 600;
-  //                   ">
-  //                     Modify ${isMobile ? "" : "Reservation"}
-  //                   </a>
-  //                 </td>
-
-  //                 <td style="padding-left: 10px; width: 50%; text-align: left;">
-  //                   <a href="${
-  //                     process.env.NEXTAUTH_URL
-  //                   }/api/reservations/activate/${
-  //   pendReservation.id
-  // }" target="_blank" style="
-  //                     text-align: center;
-  //                     border-radius: 5px;
-  //                     background-color: #5f77ff;
-  //                     font-size: 14.5px;
-  //                     font-family: Helvetica, Arial, sans-serif;
-  //                     color: white;
-  //                     text-decoration: none;
-  //                     padding: 7px 13px;
-  //                     border: 1px solid #346df1;
-  //                     display: inline-block;
-  //                     font-weight: 600;
-  //                     ">
-  //                     Confirm ${isMobile ? "" : "Reservation"}
-  //                   </a>
-  //                 </td>
-  //               </tr>
-
-  //               <tr>
-  //                 <td style="
-  //                   text-align: center;
-  //                   padding: 15px 0px 5px 0px;
-  //                   text-decoration: underline;
-  //                   font-size: 12.3px;
-  //                   line-height: 17px;
-  //                   font-family: Helvetica, Arial, sans-serif;
-  //                   color: #444444;
-  //                 ">
-  //                   If you did not request this email you can safely ignore it.
-  //                 </td>
-  //               </tr>
-  //             </tbody>
-  //           </table>`;
-
-  // const rsvpTable = () => {
-
-  //   return (
-
-  //   )
-  // }
-
   const headerNames = [
+    "Date",
     "Time",
     "Hotel",
     "Tour",
@@ -495,41 +152,99 @@ const Reservations_Table = () => {
     "Phone",
     "Adults",
     "Kids",
-    "Reserved By",
+    "Reserved",
     "Room #",
     "Details",
-    "Dep. Amount",
-    "Total Price",
+    "Deposit",
+    "Total",
     "Balance",
     "Created",
+    "Updated",
   ];
 
-  const innerHeaders = headerNames.map((header, i) => {
-    return (
-      <th
-        key={i}
-        className="table-th text-center py-[12px] text-lg+ text-white p-[8px]"
-      >
-        {header}
-      </th>
-    );
+  const tableHeaders = headerNames.map((header, i) => {
+    if (header === "Date") {
+      return (
+        <th
+          key={i}
+          className={`table-th rounded-{tl}{0.27rem} text-center text-lg+ py-[18px] text-white p-[8px]`}
+        >
+          {header}
+        </th>
+      );
+    } else if (header === "From") {
+      return (
+        <th
+          key={i}
+          className={`table-th text-center text-lg+ py-[18px] text-white p-[8px] ${
+            hiddenColumns.showFrom ? "table-cell" : "hidden"
+          }`}
+        >
+          {header}
+        </th>
+      );
+    } else if (header === "To") {
+      return (
+        <th
+          key={i}
+          className={`table-th text-center text-lg+ py-[18px] text-white p-[8px] ${
+            hiddenColumns.showTo ? "table-cell" : "hidden"
+          }`}
+        >
+          {header}
+        </th>
+      );
+    } else if (header === "Created") {
+      return (
+        <th
+          key={i}
+          className={`table-th text-center text-lg+ py-[18px] text-white p-[8px] ${
+            hiddenColumns.showCreatedAt ? "table-cell" : "hidden"
+          }`}
+        >
+          {header}
+        </th>
+      );
+    } else if (header === "Updated") {
+      return (
+        <th
+          key={i}
+          className={`table-th rounded-{tr}{0.27rem} text-center text-lg+ py-[18px] text-white p-[8px] ${
+            hiddenColumns.showUpdatedAt ? "table-cell" : "hidden"
+          }`}
+        >
+          {header}
+        </th>
+      );
+    } else {
+      return (
+        <th
+          key={i}
+          className={`table-th text-center py-[12px] text-lg+ text-white p-[8px]`}
+        >
+          {header}
+        </th>
+      );
+    }
   });
+
+  // console.log(tableHeaders);
 
   if (reservations) {
     const tableRows = Object.values(reservations).map((value: any, j: any) => {
       return (
         <tr className={`bg-${j % 2 === 0 ? evenRowColor : oddRowColor}`}>
-          <td className="border border-[#ddd] p-[8px]">{value.toString()}</td>
+          <td className={`border border-[#ddd] p-[8px]`}>{value.toString()}</td>
         </tr>
       );
     });
   }
 
-  // console.log(klk);
+  // console.log("windowWidth: ", windowWidth);
 
   return (
-    <div>
-      <div className="text-black text-3xl font-semibold">
+    <div className="m-auto flex flex-col flex-1 items-stretch w-full">
+      <div className="text-black text-3xl items-stretch font-semibold flex flex-1 justify-center">
         {/* <table className="w-full m-auto border-none p-0 border-spacing-0 border-separate">
           <tbody>
             <tr>
@@ -538,121 +253,175 @@ const Reservations_Table = () => {
           </tbody>
         </table> */}
 
-        <table className="text-center w-full border-none p-0 border-spacing-20 border-separate">
-          <tbody>
+        <table className="text-center table-fixed w-[100%] border-none p-0">
+          {/* <table className="text-center table-fixed w-[20rem] border-none p-0 border-spacing-20 border-separate"> */}
+          <tbody className="">
             <tr className="">
               <td>
-                <table className="border-[1.5px] border-black text-center mr-auto ml-auto font-has w-[100%]">
-                  <tbody>
-                    {/* HEADERS */}
-                    <tr className="bg-[#758aff]">
-                      <th className="table-th rounded-{tl}{0.27rem} text-center text-lg+ py-[12px] text-white p-[8px]">
-                        Date
-                      </th>
-                      {innerHeaders}
-                      <th className="table-th rounded-{tr}{0.27rem} text-center text-lg+ py-[12px] text-white p-[8px]">
-                        Updated
-                      </th>
-                    </tr>
-                    {/* CELLS */}
-                    {reservations.map((rsvp: any, i) => (
-                      <tr
-                        key={i}
-                        className={`bg-${
-                          i % 2 === 0 ? evenRowColor : oddRowColor
-                        }`}
-                      >
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(formatDate(rsvp.rsvpDate)).replace(
-                            /"/g,
-                            ""
-                          )}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(formatTime(rsvp.rsvpTime)).replace(
-                            /"/g,
-                            ""
-                          )}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.hotel).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.tour).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.transportFrom).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.transportTo).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.name).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.email).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.phone).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.numAdults).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.numKids).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.reservedBy).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.roomNum).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.details).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.depositAmount).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.totalPrice).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(rsvp.balance).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(
-                            formatDateTime(rsvp.createdAt)
-                          ).replace(/"/g, "")}
-                        </td>
-                        <td className="border text-lg font-medium border-[#ddd] p-[8px]">
-                          {JSON.stringify(
-                            formatDateTime(rsvp.updatedAt)
-                          ).replace(/"/g, "")}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {/* 
-                <table>
-                  <tbody>
-                    <tr className="">
-                      <th className="table-th rounded-{tl}{0.27rem} text-center text-lg+ py-[12px] text-white p-[8px]">
-                        Date
-                      </th>
-                      {innerHeaders}
-                      <th className="table-th rounded-{tr}{0.27rem} text-center text-lg+ py-[12px] text-white p-[8px]">
-                        Updated
-                      </th>
-                    </tr>
-                    <tr>
-                      <td>A</td>
-                      <td>B</td>
-                      <td>C</td>
-                    </tr>
-                  </tbody>
-                </table>
-                 */}
+                {windowWidth > 400 && (
+                  <table className="border-[1.5px] border-black text-center mr-auto ml-auto font-has w-full">
+                    <tbody>
+                      {/* HEADERS */}
+                      <tr className="bg-[#758aff]">{tableHeaders}</tr>
+                      {/* CELLS */}
+                      {reservations.map((rsvp: any, i) => (
+                        <tr
+                          key={i}
+                          className={`bg-${
+                            i % 2 === 0 ? evenRowColor : oddRowColor
+                          }`}
+                        >
+                          <td className="border text-lg font-medium border-[#ddd] p-[8px]">
+                            {JSON.stringify(formatDate(rsvp.rsvpDate)).replace(
+                              /"/g,
+                              ""
+                            )}
+                          </td>
+                          <td className="border text-lg font-medium border-[#ddd] p-[8px]">
+                            {JSON.stringify(formatTime(rsvp.rsvpTime)).replace(
+                              /"/g,
+                              ""
+                            )}
+                          </td>
+                          <td className="border text-lg font-medium border-[#ddd] p-[8px]">
+                            {JSON.stringify(rsvp.hotel).replace(/"/g, "")}
+                          </td>
+                          <td className="border text-lg font-medium border-[#ddd] p-[8px]">
+                            {JSON.stringify(rsvp.tour).replace(/"/g, "")}
+                          </td>
+                          <td
+                            className={`border text-lg font-medium border-[#ddd] p-[8px] ${
+                              hiddenColumns.showFrom ? "table-cell" : "hidden"
+                            }`}
+                          >
+                            {JSON.stringify(rsvp.transportFrom).replace(
+                              /"/g,
+                              ""
+                            ) === "null"
+                              ? ``
+                              : JSON.stringify(rsvp.transportFrom).replace(
+                                  /"/g,
+                                  ""
+                                )}
+                          </td>
+                          <td
+                            className={`border text-lg font-medium border-[#ddd] p-[8px] ${
+                              hiddenColumns.showTo ? "table-cell" : "hidden"
+                            }`}
+                          >
+                            {JSON.stringify(rsvp.transportTo).replace(
+                              /"/g,
+                              ""
+                            ) === "null"
+                              ? ``
+                              : JSON.stringify(rsvp.transportTo).replace(
+                                  /"/g,
+                                  ""
+                                )}
+                          </td>
+                          <td
+                            className="border text-lg font-medium border-[#ddd] p-[8px] max-w-[100px] truncate hover:overflow-visible hover:absolute 
+                          hover:bg-white hover:scale-125 hover:text-sm hover:rounded-sm+ whitespace-nowrap hover:max-w-[250px] hover:translate-y-2 hover:ring-1 ring-orange-500"
+                          >
+                            {JSON.stringify(rsvp.name).replace(/"/g, "")}
+                          </td>
+                          <td
+                            className={`border text-lg font-medium border-[#ddd] p-[8px] max-w-[110px] truncate hover:overflow-visible hover:absolute 
+                          hover:bg-white hover:scale-125 hover:text-sm hover:rounded-sm+ whitespace-nowrap hover:max-w-[400px] hover:translate-y-2 hover:ring-1 ring-orange-500`}
+                          >
+                            {JSON.stringify(rsvp.email).replace(/"/g, "")}
+                          </td>
+                          {/* <div className="flex flex-1 items-stretch border border-black"> */}
+                          <td
+                            className={`border text-lg font-medium border-[#ddd] p-[8px] max-w-[130px] truncate hover:overflow-visible hover:absolute 
+                          hover:bg-white hover:scale-125 hover:text-sm hover:rounded-sm+ whitespace-nowrap hover:max-w-[170px] hover:translate-y-2 hover:ring-1 ring-orange-500`}
+                          >
+                            {JSON.stringify(rsvp.phone).replace(/"/g, "")}
+                          </td>
+                          {/* </div> */}
+                          <td className="border text-lg font-medium border-[#ddd] p-[8px]">
+                            {JSON.stringify(rsvp.numAdults).replace(/"/g, "")}
+                          </td>
+                          <td className="border text-lg font-medium border-[#ddd] p-[8px]">
+                            {JSON.stringify(rsvp.numKids).replace(/"/g, "")}
+                          </td>
+                          <td
+                            className={`border text-lg font-medium border-[#ddd] p-[8px] max-w-[100px] truncate ${
+                              JSON.stringify(rsvp.reservedBy).replace(/"/g, "")
+                                ? `hover:overflow-visible hover:absolute mx-auto hover:abs-center
+                            hover:bg-white hover:scale-125 hover:text-sm hover:rounded-sm+ hover:max-w-[170px] hover:translate-y-2 hover:ring-1 ring-orange-500`
+                                : ``
+                            }`}
+                          >
+                            {JSON.stringify(rsvp.reservedBy).replace(/"/g, "")}
+                          </td>
+                          <td
+                            className={`border text-lg font-medium border-[#ddd] p-[8px] max-w-[90px] truncate`}
+                          >
+                            {JSON.stringify(rsvp.roomNum).replace(/"/g, "")}
+                          </td>
+                          <td
+                            className={`border text-lg font-medium border-[#ddd] p-[8px] max-w-[130px] truncate ${
+                              JSON.stringify(rsvp.details).replace(/"/g, "")
+                                ? `hover:overflow-visible hover:absolute mx-auto hover:abs-center hover:whitespace-pre-wrap
+                            hover:bg-white hover:scale-125 hover:text-sm hover:rounded-sm+ hover:max-w-[170px] hover:translate-y-2 hover:ring-1 ring-orange-500`
+                                : ``
+                            }`}
+                          >
+                            {JSON.stringify(rsvp.details).replace(/"/g, "")}
+                          </td>
+                          <td className="border text-lg font-medium border-[#ddd] p-[8px]">
+                            {JSON.stringify(rsvp.depositAmount).replace(
+                              /"/g,
+                              ""
+                            ) === "null"
+                              ? ``
+                              : JSON.stringify(rsvp.depositAmount).replace(
+                                  /"/g,
+                                  ""
+                                )}
+                          </td>
+                          <td className="border text-lg font-medium border-[#ddd] p-[8px]">
+                            {JSON.stringify(rsvp.totalPrice).replace(
+                              /"/g,
+                              ""
+                            ) === "null"
+                              ? ``
+                              : JSON.stringify(rsvp.totalPrice).replace(
+                                  /"/g,
+                                  ""
+                                )}
+                          </td>
+                          <td className="border text-lg font-medium border-[#ddd] p-[8px]">
+                            {JSON.stringify(rsvp.balance).replace(/"/g, "")}
+                          </td>
+                          <td
+                            className={`border text-lg font-medium border-[#ddd] p-[8px] ${
+                              hiddenColumns.showCreatedAt
+                                ? "table-cell"
+                                : "hidden"
+                            }`}
+                          >
+                            {JSON.stringify(
+                              formatDateTime(rsvp.createdAt)
+                            ).replace(/"/g, "")}
+                          </td>
+                          <td
+                            className={`border text-lg font-medium border-[#ddd] p-[8px] ${
+                              hiddenColumns.showUpdatedAt
+                                ? "table-cell"
+                                : "hidden"
+                            }`}
+                          >
+                            {JSON.stringify(
+                              formatDateTime(rsvp.updatedAt)
+                            ).replace(/"/g, "")}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </td>
             </tr>
           </tbody>
