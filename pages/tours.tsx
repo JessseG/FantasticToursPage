@@ -41,7 +41,7 @@ function Tours() {
       name: "Combo Bus and Boat",
       description:
         "Get the full city experience combining our 90 minute boat cruise around the houses of the rich and famous with our Big Bus Tour to see the most important landmarks and attractions of Miami as you Hop off in South Beach, Wynwood and Little Havana. Complemented with free time in Bayside Marketplace.",
-      photo_url: "big_bus_image.jpg",
+      photo_url: "bigbus_bayride.png",
       photo_style: "",
       moreInfoLink: "",
     },
@@ -55,19 +55,38 @@ function Tours() {
     },
   ]);
 
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth); // set initial windowWidth
+
+    const updateScreenWidth = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", updateScreenWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateScreenWidth);
+    };
+  });
+
   return (
-    <div>
+    <div className="flex flex-1">
       {/*  TOUR  */}
-      <div className="flex flex-row justify-center w-full items-stretch flex-wrap py-1 border-red-500 bg-gray-900">
-        {tours.map((tour) => {
+      <div className="flex flex-row justify-center w-full flex-wrap py-1 border-red-500 bg-gray-900">
+        {tours.map((tour, i) => {
           return (
             <div
-              className={`inline-flex flex-col basis-[32.6%] bg-[#f7f7f7] border-zinc-50 border-2 container w-full max-w-[35rem] mx-[0.3rem] my-2 pb-7 text-center overflow-hidden text-black`}
+              key={i}
+              className={`max-h-[47.5rem] inline-flex flex-col bg-[#f7f7f7] border-zinc-50 border-2 container w-full max-w-[35rem] mx-[0.3rem] my-2 pb-7 text-center overflow-hidden text-black`}
               //   className={`inline-flex flex-col basis-[32.6%] bg-gray-800 border-zinc-300 border-2 container w-full mx-[0.3rem] my-2 p-8 text-center overflow-hidden text-black`}
             >
-              <div className="relative mx-auto text-center bg-transparent mb-6 h-72 w-full overflow-hidden">
+              <div className="relative mx-auto text-center bg-transparent mb-6 w-full overflow-hidden">
                 <Image
-                  layout="fill"
+                  priority
+                  layout="responsive"
+                  width={"100%"}
+                  height={"66%"}
                   className="cursor-pointer hover:scale-110 transition-transform duration-500 ease-in-out"
                   src={`/images/${tour.photo_url}`}
                   alt="Home"

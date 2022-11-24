@@ -1664,7 +1664,7 @@ const Reservations = () => {
                           layout="fill"
                           priority={true}
                           className="border-black cursor-pointer contrast-[1.4]"
-                          src="/images/whatsapp-icon.png"
+                          src="/images/whatsapp_icon.png"
                           alt="logo"
                         />
                       </div>

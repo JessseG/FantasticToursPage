@@ -68,6 +68,15 @@
     transition: margin-left 0.5s;
   }
 
+  /* html,
+  body,
+  body > div:first-child,
+  div#__next,
+  div#__next > div {
+    height: 100%;
+  } */
+
+
   /* .custom-calendar {
     background-color: #f0a739;
     border: 5px solid #346df1;
