@@ -393,3 +393,7 @@
  td:hover {
   /* filter: contrast(1.5); */
  }
+
+ .hyphens-auto {
+    hyphens: auto;
+ }

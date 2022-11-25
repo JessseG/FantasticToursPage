@@ -49,7 +49,7 @@ function Tours() {
       name: "Speed Boat Thriller & Skyview Combo",
       description:
         "Combine our 45 minute speed boat ride around the islands of the rich and famous with our new Skyview Observation Wheel of Miami. Great picture opportunities! Followed by free time in Bayside Marketplace.",
-      photo_url: "thriller.jpg",
+      photo_url: "skywheel_thriller.png",
       photo_style: "",
       moreInfoLink: "",
     },

@@ -771,6 +771,7 @@ const Reservations = () => {
 
   // console.log(reservationDate);
   // console.log(reservationTime);
+  // console.log(router.asPath);
 
   return (
     // <div className="mx-auto px-5 flex flex-col flex-1 w-full bg-no-repeat bg-cover bg-[url('/images/nighttime-miami.webp')]">
@@ -1541,13 +1542,25 @@ const Reservations = () => {
                 <button
                   disabled={disableButton}
                   className="px-3 py-2 border w-full hover:saturate-[3] saturate-[2] text-gray-700 bg-orange-300 text-xl
-                    font-semibold border-gray-500 rounded-sm+ outline-none"
+                    font-semibold border-gray-500 rounded-sm+ outline-none select-none"
                   onClick={() => handleShowTotals()}
                   type="button"
                 >
                   Reserve
                 </button>
               </div>
+
+              {/* OTHER OPTIONS */}
+              {/* <div className="font-medium font-[sans-serif] text-center bg-white text-zinc-400 ring-2 ring-orange-300 flex justify-between mt-8 mb-2 mx-0.5 rounded-sm">
+                <span className="w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-zinc-600 rounded-l-sm+ border-r select-none">
+                  Modify Rsvp
+                </span>
+                <Link href={`/tours`}>
+                  <button className="w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-gray-300 rounded-r-sm+ select-none">
+                    View Tours
+                  </button>
+                </Link>
+              </div> */}
             </div>
           )}
 
@@ -1940,6 +1953,16 @@ const Reservations = () => {
           </div>
         </div>
       )}
+
+      {/* OTHER OPTIONS */}
+      <div className="mx-auto container max-w-[35rem] font-medium font-[sans-serif] text-center bg-white text-zinc-400 ring-2 ring-orange-300 justify-between mt-8 mb-2 rounded-sm">
+        <div className="inline-block w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-zinc-600 rounded-l-sm+ border-r select-none">
+          <Link href={`${router.asPath}`}>Modify Rsvp</Link>
+        </div>
+        <div className="inline-block w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-gray-300 rounded-r-sm+ select-none">
+          <Link href={`/tours`}>View Tours</Link>
+        </div>
+      </div>
     </div>
   );
 };

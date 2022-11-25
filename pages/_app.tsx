@@ -6,6 +6,8 @@ import "nprogress/nprogress.css";
 import "react-phone-input-2/lib/style.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import Layout from "../components/Layout";
+import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
 // import "react-datepicker/dist/react-datepicker.css";
 // import { SwitchTransition, CSSTransition } from "react-transition-group";
 
@@ -14,11 +16,18 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({
+  Component,
+  pageProps,
+}: AppProps<{
+  session: Session;
+}>) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <SessionProvider session={pageProps.session}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </SessionProvider>
   );
 }
 

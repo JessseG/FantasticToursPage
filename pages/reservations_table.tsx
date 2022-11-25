@@ -4,6 +4,8 @@ import { Prisma, User } from "@prisma/client";
 // import useSWR from "swr";
 import { fetchData } from "../utils/utils";
 import NProgress from "nprogress";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 // type AllReservations = Prisma.ReservationGetPayload<{
 //   include: {
@@ -41,6 +43,9 @@ const Reservations_Table = () => {
     showCreatedAt: false,
     showUpdatedAt: false,
   });
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
+  const router = useRouter();
 
   // // If fullCom fails, error comes in
   // const { data: allRsvps, error } = useSWR("/api/reservations/findReservations", fetchData, {
@@ -76,7 +81,13 @@ const Reservations_Table = () => {
       setReservations(reservationRes);
     };
 
-    getReservations();
+    // console.log(session);
+
+    if (session) {
+      getReservations();
+    } else {
+      router.push("/_error");
+    }
 
     setHiddenColumns((prevState) => {
       return {
@@ -243,7 +254,7 @@ const Reservations_Table = () => {
   // console.log("windowWidth: ", windowWidth);
 
   return (
-    <div className="m-auto flex flex-col flex-1 items-stretch w-full">
+    <div className="mx-auto flex flex-col items-stretch w-full">
       <div className="text-black text-3xl items-stretch font-semibold flex flex-1 justify-center">
         {/* <table className="w-full m-auto border-none p-0 border-spacing-0 border-separate">
           <tbody>

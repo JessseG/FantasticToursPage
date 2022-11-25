@@ -287,14 +287,9 @@ const Nav = (props: any) => {
 
             {showPhone && (
               <div
-                onClick={() => {
-                  if (mobileWidth) {
-                    // TRIGGER PHONE CALL
-                  }
-                }}
                 className={`inline-block mt-1 text-zinc-700 font-[sans-serif] ml-2 mr-0 hover:scale-[103%] cursor-pointer border-black`}
               >
-                (305) 432 9793
+                <a href="tel:+1-305-432-9793">(305) 432 9793</a>
               </div>
             )}
           </div>
@@ -318,27 +313,22 @@ const Nav = (props: any) => {
                 }
                 setShowWhatsApp(!showWhatsApp);
               }}
-              className={`inline-block mt-0.5 relative shrink-0 border-indigo-600 h-[26px] w-[26px]`}
+              className={`inline-block relative shrink-0 border-indigo-600 h-[21px] w-[21px] hover:scale-[105%]`}
             >
               <Image
                 layout="fill"
                 priority={true}
-                className="border-black cursor-pointer hover:scale-[105%] contrast-[1.4]"
-                src="/images/whatsapp-icon.png"
+                className="border-black cursor-pointer contrast-[1.4]"
+                src="/images/whatsapp_icon.png"
                 alt="logo"
               />
             </div>
 
             {showWhatsApp && (
               <div
-                onClick={() => {
-                  if (mobileWidth) {
-                    // TRIGGER SEND NEW WHATSAPP MESSAGE
-                  }
-                }}
                 className={`text-zinc-700 font-[sans-serif] ml-2 mr-0 mt-1 hover:scale-[103%] cursor-pointer border-black`}
               >
-                (786) 486 7475
+                <a href="tel:+1-786-486-7475">(786) 486 7475</a>
               </div>
             )}
           </div>
@@ -365,14 +355,11 @@ const Nav = (props: any) => {
 
             {showEmail && (
               <div
-                onClick={() => {
-                  if (mobileWidth) {
-                    // TRIGGER NEW EMAIL
-                  }
-                }}
                 className={`border-black text-zinc-700 font-[sans-serif] ml-1.5 mr-3 mt-1 hover:scale-[103%] cursor-pointer`}
               >
-                info@miamifantastictours.com
+                <a href="mailto:info@miamifantastictours.com">
+                  info@miamifantastictours.com
+                </a>
               </div>
             )}
           </div>
