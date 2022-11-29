@@ -1955,14 +1955,14 @@ const Reservations = () => {
       )}
 
       {/* OTHER OPTIONS */}
-      <div className="mx-auto container max-w-[35rem] font-medium font-[sans-serif] text-center bg-white text-zinc-400 ring-2 ring-orange-300 justify-between mt-8 mb-2 rounded-sm">
+      {/* <div className="mx-auto container max-w-[35rem] font-medium font-[sans-serif] text-center bg-white text-zinc-400 ring-2 ring-orange-300 justify-between mt-8 mb-2 rounded-sm">
         <div className="inline-block w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-zinc-600 rounded-l-sm+ border-r select-none">
           <Link href={`${router.asPath}`}>Modify Rsvp</Link>
         </div>
         <div className="inline-block w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-gray-300 rounded-r-sm+ select-none">
           <Link href={`/tours`}>View Tours</Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
