@@ -48,7 +48,7 @@ import PhoneInput from "react-phone-input-2";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 
-const Reservations = (props) => {
+const Reservations = () => {
   const router = useRouter();
   // const { data: session } = useSession();
   const inputNameElement = useRef<HTMLInputElement>(null);
