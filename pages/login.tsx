@@ -15,8 +15,11 @@ import GitHubProvider from "next-auth/providers/github";
 import { isMobile } from "react-device-detect";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { Puff, TailSpin } from "react-loader-spinner";
+import { InferGetServerSidePropsType } from "next";
 
-const Login = ({ csrfToken, providers }: any) => {
+const Login = ({
+  providers,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const { data: session } = useSession();
   const inputEmailElement = useRef<HTMLInputElement>(null);
@@ -120,7 +123,7 @@ const Login = ({ csrfToken, providers }: any) => {
 
     // api request
     NProgress.start();
-    const login = await signIn("credentials", {
+    const login: any = await signIn("credentials", {
       redirect: false,
       email: user.email,
       password: user.password,
@@ -129,10 +132,11 @@ const Login = ({ csrfToken, providers }: any) => {
     NProgress.done();
     setLoading(false);
 
-    if (login) {
+    if (login?.status === 200) {
       // Login without callbacks
-      console.log(login);
-      router.push({ pathname: "/" }, "/");
+      // console.log("Failed Login");
+      // console.log(login);
+      // router.push({ pathname: "/reservations_table" }, "/reservations_table");
     } else {
       setDisableButton(false);
       setPasswordValidation((state) => ({

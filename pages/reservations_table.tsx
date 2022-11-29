@@ -6,6 +6,7 @@ import { fetchData } from "../utils/utils";
 import NProgress from "nprogress";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 // type AllReservations = Prisma.ReservationGetPayload<{
 //   include: {
@@ -33,7 +34,7 @@ import { useRouter } from "next/router";
 // }>;
 
 // const Reservations_Table = ({ allRsvps: props }: { allRsvps: AllReservations }) => {
-const Reservations_Table = () => {
+const Reservations_Table = (props) => {
   const [reservations, setReservations] = useState([]);
   const [windowWidth, setWindowWidth] = useState(0);
   const [hiddenColumns, setHiddenColumns] = useState({
@@ -44,7 +45,6 @@ const Reservations_Table = () => {
     showUpdatedAt: false,
   });
   const { data: session, status } = useSession();
-  const loading = status === "loading";
   const router = useRouter();
 
   // // If fullCom fails, error comes in
@@ -92,6 +92,9 @@ const Reservations_Table = () => {
     setHiddenColumns((prevState) => {
       return {
         ...prevState,
+        showTo: window.innerWidth > 850, // Temp
+        showFrom: window.innerWidth > 850, // Temp
+        showEmail: window.innerWidth > 850,
         showCreatedAt: window.innerWidth > 1800,
         showUpdatedAt: window.innerWidth > 1800,
       };
@@ -106,14 +109,16 @@ const Reservations_Table = () => {
     setHiddenColumns((prevState) => {
       return {
         ...prevState,
-        showTo: window.innerWidth > 800,
-        showFrom: window.innerWidth > 800,
-        showEmail: window.innerWidth > 800,
+        showTo: window.innerWidth > 850,
+        showFrom: window.innerWidth > 850,
+        showEmail: window.innerWidth > 850,
         showCreatedAt: window.innerWidth > 1800,
         showUpdatedAt: window.innerWidth > 1800,
       };
     });
   }, [windowWidth]);
+
+  // console.log(session);
 
   const formatDate = (date: any) => {
     return new Date(date)?.toLocaleDateString("en-us", {
@@ -200,6 +205,17 @@ const Reservations_Table = () => {
           key={i}
           className={`table-th text-center text-lg+ py-[18px] text-white p-[8px] ${
             hiddenColumns.showTo ? "table-cell" : "hidden"
+          }`}
+        >
+          {header}
+        </th>
+      );
+    } else if (header === "Email") {
+      return (
+        <th
+          key={i}
+          className={`table-th text-center text-lg+ py-[18px] text-white p-[8px] ${
+            hiddenColumns.showEmail ? "table-cell" : "hidden"
           }`}
         >
           {header}
@@ -338,7 +354,9 @@ const Reservations_Table = () => {
                           </td>
                           <td
                             className={`border text-lg font-medium border-[#ddd] p-[8px] max-w-[110px] truncate hover:overflow-visible hover:absolute 
-                          hover:bg-white hover:scale-125 hover:text-sm hover:rounded-sm+ whitespace-nowrap hover:max-w-[400px] hover:translate-y-2 hover:ring-1 ring-orange-500`}
+                          hover:bg-white hover:scale-125 hover:text-sm hover:rounded-sm+ whitespace-nowrap hover:max-w-[400px] hover:translate-y-2 hover:ring-1 ring-orange-500 ${
+                            hiddenColumns.showEmail ? "table-cell" : "hidden"
+                          }`}
                           >
                             {JSON.stringify(rsvp.email).replace(/"/g, "")}
                           </td>
@@ -437,6 +455,26 @@ const Reservations_Table = () => {
             </tr>
           </tbody>
         </table>
+      </div>
+
+      {/* OTHER OPTIONS */}
+      <div className="w-full mt-44 mx-auto container font-medium font-[sans-serif] text-zinc-400 ring-orange-300 justify-start rounded-sm">
+        {/* <div className="mt-36 mx-auto container font-medium font-[sans-serif] border-white text-right text-zinc-400 ring-orange-300 justify-end mb-2 rounded-sm"> */}
+        {/* <div className="inline-block w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-zinc-600 rounded-l-sm+ border-r select-none">
+          <Link href={`${router.asPath}`}>Modify Rsvp</Link>
+        </div> */}
+        {session && (
+          <div
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="inline-block px-5 py-3 border-red-600 cursor-pointer text-blue-600 rounded-r-sm+ select-none"
+          >
+            Logout
+          </div>
+        )}
+        {/* <div className="inline-block w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-gray-300 rounded-r-sm+ select-none"> */}
+        <div className="inline-block px-5 py-3 border-red-600 cursor-pointer text-blue-600 rounded-r-sm+ select-none">
+          <Link href={`/tours`}>View Tours</Link>
+        </div>
       </div>
     </div>
   );

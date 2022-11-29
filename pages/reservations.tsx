@@ -46,8 +46,9 @@ import moment, { Moment } from "moment";
 import PhoneInput from "react-phone-input-2";
 // import Layout from "../components/Layout";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
 
-const Reservations = () => {
+const Reservations = (props) => {
   const router = useRouter();
   // const { data: session } = useSession();
   const inputNameElement = useRef<HTMLInputElement>(null);
@@ -66,6 +67,7 @@ const Reservations = () => {
   const [countryCodeEditable, setCountryCodeEditable] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
+  const { data: session, status } = useSession();
   const [reservation, setReservation] = useState<any>({
     name: "",
     email: "",
@@ -1955,14 +1957,29 @@ const Reservations = () => {
       )}
 
       {/* OTHER OPTIONS */}
-      {/* <div className="mx-auto container max-w-[35rem] font-medium font-[sans-serif] text-center bg-white text-zinc-400 ring-2 ring-orange-300 justify-between mt-8 mb-2 rounded-sm">
-        <div className="inline-block w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-zinc-600 rounded-l-sm+ border-r select-none">
+      <div className="w-full mt-44 mx-auto container font-medium font-[sans-serif] text-zinc-400 ring-orange-300 justify-start rounded-sm">
+        {/* <div className="mt-36 mx-auto container font-medium font-[sans-serif] border-white text-right text-zinc-400 ring-orange-300 justify-end mb-2 rounded-sm"> */}
+        {/* <div className="inline-block w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-zinc-600 rounded-l-sm+ border-r select-none">
           <Link href={`${router.asPath}`}>Modify Rsvp</Link>
-        </div>
-        <div className="inline-block w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-gray-300 rounded-r-sm+ select-none">
+        </div> */}
+        {!session && (
+          <div className="inline-block px-5 py-3 border-red-600 cursor-pointer text-blue-600 rounded-r-sm+ select-none">
+            <Link href={`/login`}>Login</Link>
+          </div>
+        )}
+        {session && (
+          <div
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="inline-block px-5 py-3 border-red-600 cursor-pointer text-blue-600 rounded-r-sm+ select-none"
+          >
+            Logout
+          </div>
+        )}
+        {/* <div className="inline-block w-1/2 px-5 py-3 cursor-pointer text-zinc-600 hover:bg-zinc-100 border-gray-300 rounded-r-sm+ select-none"> */}
+        <div className="inline-block px-5 py-3 border-red-600 cursor-pointer text-blue-600 rounded-r-sm+ select-none">
           <Link href={`/tours`}>View Tours</Link>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

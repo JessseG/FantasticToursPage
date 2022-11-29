@@ -87,7 +87,7 @@ const Home: NextPage = (props) => {
           </div>
           <div className="mx-4 mt-5 pt-0.5 mb-6 border-black flex justify-center">
             <Link href={`/reservations`}>
-              <div className="w-full text-center inline-block px-4 py-3 cursor-pointer rounded-sm+ border-gray-400 ring-1 ring-zinc-400 bg-orange-400 font-[sans-serif]">
+              <div className="w-full text-center inline-block px-4 py-3 cursor-pointer rounded-sm+ border-gray-400 ring-1 ring-zinc-400 hover:contrast-200 bg-red-400 font-[sans-serif]">
                 <div className="hover:scale-[102%] text-white text-lg+">
                   Reserve Now
                 </div>

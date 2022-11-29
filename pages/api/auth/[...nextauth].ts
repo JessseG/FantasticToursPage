@@ -77,6 +77,7 @@ export default NextAuth({
   pages: {
     signIn: "/login",
     // newUser: "/register",
+    signOut: "/tours",
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
