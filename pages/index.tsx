@@ -96,7 +96,7 @@ const Home: NextPage = (props) => {
                 title="See the Tours"
                 className="w-1/6 ml-3 text-center inline-block p-2 cursor-pointer rounded-sm+ border-gray-400 ring-1 ring-zinc-400 hover:contrast-125 bg-red-400 font-[sans-serif]"
               >
-                <div className=" text-white border-white h-full flex justify-center items-center text-lg+">
+                <div className=" text-white h-full flex justify-center items-center text-lg+">
                   <FontAwesomeIcon
                     icon={faCamera}
                     className={`cursor-pointer text-white rounded-full border-gray-600 text-[1.25rem] hover:scale-[105%]`}
