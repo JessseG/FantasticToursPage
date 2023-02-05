@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faCamera, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 const Home: NextPage = (props) => {
   const router = useRouter();
@@ -74,7 +74,7 @@ const Home: NextPage = (props) => {
                     onClick={() => {}}
                     href="tel:+1-305-432-9793"
                     className={`cursor-pointer text-orange-500 rotate-12 rounded-full border-gray-600 text-[1.4rem] hover:scale-[104%]`}
-                  ></FontAwesomeIcon>
+                  />
                   <div
                     onClick={() => {}}
                     className={`inline-block text-lg bg-transparent text-zinc-700 font-[sans-serif] ml-3 mr-1 cursor-pointer`}
@@ -85,10 +85,23 @@ const Home: NextPage = (props) => {
               </a>
             </div>
           </div>
-          <div className="mx-4 mt-5 pt-0.5 mb-6 border-black flex justify-center">
+          <div className="mx-4 mt-5 mb-6 border-black flex justify-center">
             <Link href={`/reservations`}>
               <div className="w-full text-center inline-block px-4 py-3 cursor-pointer rounded-sm+ border-gray-400 ring-1 ring-zinc-400 hover:contrast-125 bg-red-400 font-[sans-serif]">
                 <div className=" text-white text-lg+">Reserve Now</div>
+              </div>
+            </Link>
+            <Link href={`/tours`}>
+              <div
+                title="See the Tours"
+                className="w-1/6 ml-3 text-center inline-block p-2 cursor-pointer rounded-sm+ border-gray-400 ring-1 ring-zinc-400 hover:contrast-125 bg-red-400 font-[sans-serif]"
+              >
+                <div className=" text-white h-full flex justify-center items-center text-lg+">
+                  <FontAwesomeIcon
+                    icon={faCamera}
+                    className={`cursor-pointer text-white rounded-full border-gray-600 text-[1.25rem] hover:scale-[105%]`}
+                  />
+                </div>
               </div>
             </Link>
           </div>
