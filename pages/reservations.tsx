@@ -48,7 +48,7 @@ import PhoneInput from "react-phone-input-2";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 
-const Reservations = () => {
+const Reservations = ({}) => {
   const router = useRouter();
   // const { data: session } = useSession();
   const inputNameElement = useRef<HTMLInputElement>(null);
@@ -133,8 +133,6 @@ const Reservations = () => {
 
     //_____________________________________________________________
 
-    setWindowWidth(window.innerWidth); // set initial windowWidth
-
     // sets initial values for states dependant on screen size
     if (window.innerWidth <= 400) {
       setMobileWidth(true);
@@ -153,6 +151,8 @@ const Reservations = () => {
       //   .querySelector<HTMLElement>(".react-datepicker__current-month")
       //   ?.style.setProperty("--c", "1.44rem !important");
     }
+
+    setWindowWidth(window.innerWidth); // set initial windowWidth
 
     // sets up the eventListener for window resizing
     const updateScreenWidth = () => {

@@ -36,7 +36,7 @@ const Home: NextPage = (props) => {
       }`}
     >
       <div className="border-red-600 flex flex-row justify-start">
-        <div className="container max-w-[30rem] bg-white mt-10 px-6 rounded-sm+ border border-orange-500 ring-2 ring-orange-500">
+        <div className="container max-w-[30rem] bg-white mt-10 px-6 rounded-sm+ border border-orange-500 ring-1 ring-orange-500">
           <div className="ml-3 inline-block border border-transparent w-36 h-36 items-center">
             <div className="mx-auto mt-6 w-full relative">
               <Image
@@ -63,17 +63,17 @@ const Home: NextPage = (props) => {
           </div>
           <div
             className={`${
-              windowWidth < 505 ? `mt-5` : `mt-3`
+              windowWidth < 505 ? `mt-5` : `mt-4`
             } shrink-0 flex justify-center items-center`}
           >
-            <div className="inline-block rounded-sm+ hover:scale-[102%]">
+            <div className="inline-block rounded-sm+">
               <a href="tel:+1-305-432-9793">
                 <div className="bg-white rounded-sm+ pl-2 pr-2.5 py-1 flex items-stretch">
                   <FontAwesomeIcon
                     icon={faPhone}
                     onClick={() => {}}
                     href="tel:+1-305-432-9793"
-                    className={`cursor-pointer text-orange-500 rotate-12 rounded-full border-gray-600 text-[1.4rem]`}
+                    className={`cursor-pointer text-orange-500 rotate-12 rounded-full border-gray-600 text-[1.4rem] hover:scale-[104%]`}
                   ></FontAwesomeIcon>
                   <div
                     onClick={() => {}}
@@ -87,10 +87,8 @@ const Home: NextPage = (props) => {
           </div>
           <div className="mx-4 mt-5 pt-0.5 mb-6 border-black flex justify-center">
             <Link href={`/reservations`}>
-              <div className="w-full text-center inline-block px-4 py-3 cursor-pointer rounded-sm+ border-gray-400 ring-1 ring-zinc-400 hover:contrast-200 bg-red-400 font-[sans-serif]">
-                <div className="hover:scale-[102%] text-white text-lg+">
-                  Reserve Now
-                </div>
+              <div className="w-full text-center inline-block px-4 py-3 cursor-pointer rounded-sm+ border-gray-400 ring-1 ring-zinc-400 hover:contrast-125 bg-red-400 font-[sans-serif]">
+                <div className=" text-white text-lg+">Reserve Now</div>
               </div>
             </Link>
           </div>
