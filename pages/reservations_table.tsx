@@ -34,7 +34,7 @@ import Link from "next/link";
 // }>;
 
 // const Reservations_Table = ({ allRsvps: props }: { allRsvps: AllReservations }) => {
-const Reservations_Table = (props) => {
+const Reservations_Table = ({}) => {
   const [reservations, setReservations] = useState([]);
   const [windowWidth, setWindowWidth] = useState(0);
   const [hiddenColumns, setHiddenColumns] = useState({
